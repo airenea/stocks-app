@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buyer_id: 1
+  seller_id: 1
+  stock_id: 1
+  number_of_stocks: 1
+  price: 9.99
+
+two:
+  buyer_id: 1
+  seller_id: 1
+  stock_id: 1
+  number_of_stocks: 1
+  price: 9.99
