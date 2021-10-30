@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  symbol: MyString
+  name: MyString
+  current_price: 9.99
+  change: 9.99
+  percent: MyString
+  ohlc_close: 9.99
+  ohlc_open: 9.99
+  ohlc_high: 9.99
+  ohlc_low: 9.99
+
+two:
+  symbol: MyString
+  name: MyString
+  current_price: 9.99
+  change: 9.99
+  percent: MyString
+  ohlc_close: 9.99
+  ohlc_open: 9.99
+  ohlc_high: 9.99
+  ohlc_low: 9.99
