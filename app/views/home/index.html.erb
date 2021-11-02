@@ -1,2 +1,7 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<% if regular_signed_in? %>
+ <p>Get ready to offer your services</p>
+ <%= button_to 'Log out', destroy_regular_session_path, method: :delete %>
+<% elsif admin_signed_in? %>
+ <p>What kind of service do you want?</p>
+ <%= button_to 'Log out', destroy_admin_session_path, method: :delete %>
+<% end %>
