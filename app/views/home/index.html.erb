@@ -1,7 +1,9 @@
 <% if regular_signed_in? %>
- <p>Get ready to offer your services</p>
+ <p>hi i am a normal user</p>
+ <%= current_user.approved %>
+
  <%= button_to 'Log out', destroy_regular_session_path, method: :delete %>
 <% elsif admin_signed_in? %>
- <p>What kind of service do you want?</p>
+ <p>hi i am an admin</p>
  <%= button_to 'Log out', destroy_admin_session_path, method: :delete %>
 <% end %>
