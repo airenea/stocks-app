@@ -30,6 +30,11 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
+
+  <div class="field">
+    <%= f.label :balance %><br />
+    <%= f.number_field :balance, step: :0.01 %>
+  </div>
  
   <%= f.hidden_field :approved, value: false %>
 

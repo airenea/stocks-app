@@ -1,0 +1,12 @@
+<%= form_with method: :post, url: stocks_search_path, local:true do |f| %>
+    <div class ="flex">
+        <div class="field">
+            <%= f.label :symbol %><br />
+            <%= f.text_field :symbol, autofocus: true, autocomplete: "symbol" %>
+        </div>
+
+        <div>
+            <%= f.submit "Search" %>
+        </div>
+    </div>
+<% end %>
