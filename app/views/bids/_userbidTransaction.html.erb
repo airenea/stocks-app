@@ -1,0 +1,26 @@
+<br />
+
+<%= form_with model: @transaction do |f| %>    
+    <div class ="flex">
+
+        <%= f.number_field :buyer_id, value: current_user.id, type: :hidden %>
+        <%= f.number_field :seller_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].user_id, type: :hidden %>
+        <%= f.number_field :stock_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].stock_id, type: :hidden %>
+        
+        <div class="field">
+            <%= f.label :number_of_stocks %>
+            <%= f.number_field :number_of_stocks %>
+        </div>
+
+        <%= f.number_field :price, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price, type: :hidden %>
+        
+        <%
+        price = @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price
+        number = @bid.number_of_stocks
+        %>
+        <br /> TOTAL: <%= price %> * <%= number %>: <%= price*number %>
+
+        <%= f.submit "complete transaction" %>
+        </div>
+    </div>
+<% end %>

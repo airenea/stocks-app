@@ -4,3 +4,18 @@
   <%= @bid.stock_id %>
   <%= @bid.number_of_stocks %>
   <%= @bid.price %>
+<br />
+ 
+<%
+check = @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0]
+notice = ""
+form = ""
+if check != nil
+  notice = "Congrats! Someone is selling."
+  form = render 'userbidTransaction', transaction: @transaction, ask: @ask, bid: @bid
+else
+end
+%>
+
+<%= notice %>
+<%= form %>

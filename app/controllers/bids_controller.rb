@@ -7,8 +7,9 @@ class BidsController < ApplicationController
         @bid = Bid.find(bid_id)
         @stock = Stock.where(id:@bid.stock_id)
         @list_bids = Bid.where(stock_id:@bid.stock_id)
+        @ask = Ask.all
       end
-    
+     
       def create
         @bid = Bid.new(bid_params)
     
