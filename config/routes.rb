@@ -9,5 +9,7 @@ Rails.application.routes.draw do
   get 'stocks/show/:id' => 'stocks#show', as: 'stocks_show'
   get 'asks/show/:id' => 'asks#show', as: 'asks_show'
   get 'asks' => 'asks#create', as: 'asks_create'
+  get 'bids/show/:id' => 'bids#show', as: 'bids_show'
+  get 'bids' => 'bids#create', as: 'bids_create'
 
 end
