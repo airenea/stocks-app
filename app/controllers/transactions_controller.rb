@@ -5,9 +5,6 @@ class TransactionsController < ApplicationController
     
       def show
         @transaction = Transaction.find(transaction_id)
-        @stock = Stock.where(id:@transaction.stock_id)
-        @list_transactions = Transaction.where(stock_id:@transaction.stock_id)
-        @ask = Ask.all
       end
      
       def create
@@ -21,7 +18,7 @@ class TransactionsController < ApplicationController
     
       private
         def transaction_params
-          params.require(:transaction).permit(:user_id, :stock_id, :number_of_stocks, :price, :bought)
+          params.require(:transaction).permit(:buyer_id, :seller_id, :stock_id, :number_of_stocks, :price)
         end
         
         def transaction_id

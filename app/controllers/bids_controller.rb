@@ -8,6 +8,8 @@ class BidsController < ApplicationController
         @stock = Stock.where(id:@bid.stock_id)
         @list_bids = Bid.where(stock_id:@bid.stock_id)
         @ask = Ask.all
+        @transaction = Transaction.new
+
       end
      
       def create
@@ -27,4 +29,8 @@ class BidsController < ApplicationController
         def bid_id
           params[:id]
         end    
+
+        def transaction_params
+          params[:id]
+        end
 end

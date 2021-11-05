@@ -22,11 +22,6 @@ class StocksController < ApplicationController
         @stock = Stock.find(stock_id)
         @ask = Ask.new(ask_params)
         @bid = Bid.new(bid_params)
-
-        if @ask.save
-            redirect_to @ask
-        else
-        end
     end
 
     def get_api
