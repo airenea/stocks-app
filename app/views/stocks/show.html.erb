@@ -4,3 +4,5 @@
 
 <p> Current Price: </p>
 <%= @stock.current_price %>
+
+<%= render 'bnsForm', stock: @stock, ask: @ask, bid: @bid %>

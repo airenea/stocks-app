@@ -1,12 +1,39 @@
-<%= form_with method: :post, url: stocks_search_path, local:true do |f| %>
+<br />
+<%= Stock.where(symbol: @stock.symbol)[0].id =%>
+ASKS FORM
+<%= form_with model: @ask do |f| %>    
     <div class ="flex">
-        <div class="field">
-            <%= f.label :symbol %><br />
-            <%= f.text_field :symbol, autofocus: true, autocomplete: "symbol" %>
-        </div>
 
-        <div>
-            <%= f.submit "Search" %>
+        <%= f.number_field :stock_id, value: Stock.where(symbol: @stock.symbol)[0].id, type: :hidden %>
+        <%= f.number_field :user_id, id: :user_id, class:"form-control", value: current_user.id, type: :hidden %>
+        <div class="field">
+            <%= f.label :number_of_stocks %>
+            <%= f.number_field :number_of_stocks %>
+        </div>
+        <div class="field">
+            <%= f.label :price %>
+            <%= f.number_field :price %>
+        </div>
+        <div class="field">
+            <%= f.label :sold %>
+            <%= f.check_box :sold %>
+        </div>
+        <div>   
+            <%= f.submit "asks" %>
         </div>
     </div>
 <% end %>
+
+BIDS FORM
+<%= form_with model: @bid do |f| %>    
+    <div class ="flex">
+        <div class="field">
+            <%= f.label :stock_id %>
+            <%= f.select :stock_id, [@stock.symbol], value: Stock.where(symbol: @stock.symbol)[0].id %>
+        </div>
+        <div>   
+            <%= f.submit "bids" %>
+        </div>
+    </div>
+<% end %>
+
