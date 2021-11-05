@@ -7,7 +7,7 @@
 <br />
  
 <%
-check = @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0]
+check = @ask.where(stock_id: @bid.stock_id).where(price: @bid.price).where.not(user_id: current_user.id)[0]
 notice = ""
 form = ""
 if check != nil

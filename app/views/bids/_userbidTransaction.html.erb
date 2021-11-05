@@ -6,30 +6,17 @@ PRICE: <%=@ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price 
 <br />
 this is the form <br /><br />
 
-<%= form_with model: @transaction do |f| %>    
+<%= form_with model: @transaction do |f| %>  
+    <%= f.hidden_field :buyer_id, value: current_user.id %>
+    <%= f.hidden_field :seller_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].user_id %>
+    <%= f.hidden_field :stock_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].stock_id %>
+    <%= f.hidden_field :price, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price %>
+  
     <div class ="flex">
         <div class="field">
-            <%= f.label :buyer_id %>
-            <%= f.number_field :buyer_id %>
-        </div>
-        <div class="field">
-            <%= f.label :seller_id %>
-            <%= f.number_field :seller_id %>
-        </div>
-        <div class="field">
-            <%= f.label :stock_id %>
-            <%= f.number_field :stock_id %>
-        </div>
-        <div class="field">
             <%= f.label :number_of_stocks %>
-            <%= f.number_field :number_of_stocks %>
+            <%= f.number_field :number_of_stocks, in: 1.0..@ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].number_of_stocks %>
         </div>
-        <div class="field">
-            <%= f.label :price %>
-            <%= f.number_field :price %>
-        </div>
-        <div>   
             <%= f.submit "complete transaction" %>
-        </div>
     </div>
 <% end %>
