@@ -10,7 +10,6 @@ class BidsController < ApplicationController
         @ask = Ask.all
         @transaction = Transaction.new
         @transaction.user_transactions.build
-
       end
      
       def create
