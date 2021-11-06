@@ -9,7 +9,7 @@ class BidsController < ApplicationController
         @list_bids = Bid.where(stock_id:@bid.stock_id)
         @ask = Ask.all
         @transaction = Transaction.new
-        2.times { @transaction.user_transactions.build }
+        @transaction.user_transactions.build
 
       end
      

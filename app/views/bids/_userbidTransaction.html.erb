@@ -19,20 +19,17 @@ this is the form <br /><br />
 
     User Transaction:
     <%= f.fields_for :user_transactions do |ut_f| %>
-      <li>
-        <%= ut_f.label :user_id %>
-        <%= ut_f.number_field :user_id %>
-      </li><li>
-        <%= ut_f.label :stock_id %>
-        <%= ut_f.number_field :stock_id %>
-      </li><li>
-        <%= ut_f.label :number_of_stocks %>
-        <%= ut_f.number_field :number_of_stocks %>
-      </li><li>
-        <%= ut_f.label :price %>
-        <%= ut_f.number_field :price %>
-      </li><br />
+      <%= ut_f.hidden_field :user_id, value: current_user.id %>
+      <%= ut_f.hidden_field :stock_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].stock_id %>
+      <%= ut_f.hidden_field :number_of_stocks, value: @bid.number_of_stocks %>
+      <%= ut_f.hidden_field :price, value: @bid.price %>
     <% end %>
+    <%= f.fields_for :user_transactions do |ut_f| %>
+        <%= ut_f.hidden_field :user_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].user_id %>
+        <%= ut_f.hidden_field :stock_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].stock_id %>
+        <%= ut_f.hidden_field :number_of_stocks, value: -@bid.number_of_stocks %>
+        <%= ut_f.hidden_field :price, value: @bid.price %>
+    <% end %>    
     <br />
     <%= f.submit "complete transaction" %>
 <% end %>

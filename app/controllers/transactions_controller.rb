@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
     
       def new
         @transaction = Transaction.new
-        2.times { @transaction.user_transactions.build }
+        @transaction.user_transactions.build
       end
 
       def show
