@@ -1,5 +1,4 @@
 <br />
-<%= Stock.where(symbol: @stock.symbol)[0].id =%>
 ASKS FORM
 <%= form_with model: @ask do |f| %>    
     <div class ="flex">
@@ -18,12 +17,13 @@ ASKS FORM
             <%= f.label :sold %>
             <%= f.check_box :sold %>
         </div>
+        <%= f.hidden_field :sold, value: false %>
         <div>   
             <%= f.submit "asks" %>
         </div>
     </div>
 <% end %>
-
+<br />
 BIDS FORM
 <%= form_with model: @bid do |f| %>    
     <div class ="flex">
@@ -42,6 +42,7 @@ BIDS FORM
             <%= f.label :sold %>
             <%= f.check_box :sold %>
         </div>
+        <%= f.hidden_field :bought, value: false %>
         <div>   
             <%= f.submit "bids" %>
         </div>

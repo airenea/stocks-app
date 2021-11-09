@@ -12,6 +12,32 @@ class TransactionsController < ApplicationController
         @transaction = Transaction.find(transaction_id)
         @seller = User.find(@transaction.seller_id)
         @buyer = User.find(@transaction.buyer_id)
+        @ask = Ask.where(user_id: @seller).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(sold: false)[0]
+        @bid = Bid.where(user_id: @buyer).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(bought: false)[0]
+        transaction_stocks = @transaction.number_of_stocks
+        ask_stocks = @ask.number_of_stocks
+        bid_stocks = @bid.number_of_stocks
+        ask_stocks_new = ask_stocks
+        bid_stocks_new = bid_stocks
+
+        # ADJUST ASK
+        if ask_stocks > transaction_stocks
+          ask_stocks_new = ask_stocks - transaction_stocks
+          @ask.update(number_of_stocks: ask_stocks_new)
+        else
+          @ask.update(number_of_stocks: 0)
+          @ask.update(sold: true)
+        end
+
+        # ADJUST BID
+        if bid_stocks > transaction_stocks
+          bid_stocks_new = ask_stocks - transaction_stocks
+          @bid.update(number_of_stocks: bid_stocks_new)
+        else
+          @bid.update(number_of_stocks: 0)
+          @bid.update(bought: true)
+        end
+
         # ADJUST BALANCES
         change_balance = @transaction.price * @transaction.number_of_stocks
         buyer_balance = current_user.balance - change_balance
