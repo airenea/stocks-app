@@ -6,7 +6,7 @@ class BidsController < ApplicationController
     
       def show
         @bid = Bid.find(bid_id)
-        @stock = Stock.where(id:@bid.stock_id)
+        @stock = Stock.where(id:@bid.stock_id)[0]
         @list_bids = Bid.where(stock_id:@bid.stock_id)
         @ask = Ask.all
         @transaction = Transaction.new

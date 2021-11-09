@@ -6,14 +6,13 @@
 <%= @ask.price %>
 <br />
 
-<%
+<% 
 check = @bid.where(stock_id: @ask.stock_id).where(price: @ask.price).where.not(user_id: current_user.id)[0]
-stocksell_check = 
 notice = ""
 form = ""
 if check != nil
-notice = "Congrats! Someone is buying."
-form = render 'useraskTransaction', transaction: @transaction, ask: @ask, bid: @bid
+    notice = "Congrats! Someone is buying."
+    form = render 'useraskTransaction', transaction: @transaction, ask: @ask, bid: @bid
 else
 end
 %>

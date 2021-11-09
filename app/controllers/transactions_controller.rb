@@ -8,28 +8,26 @@ class TransactionsController < ApplicationController
         @transaction.user_transactions.build
       end
 
-      def show
+      def adjust_bid_ask
         @transaction = Transaction.find(transaction_id)
-        @seller = User.find(@transaction.seller_id)
-        @buyer = User.find(@transaction.buyer_id)
-        @ask = Ask.where(user_id: @seller).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(sold: false)[0]
-        @bid = Bid.where(user_id: @buyer).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(bought: false)[0]
         transaction_stocks = @transaction.number_of_stocks
-        ask_stocks = @ask.number_of_stocks
-        bid_stocks = @bid.number_of_stocks
-        ask_stocks_new = ask_stocks
-        bid_stocks_new = bid_stocks
-
         # ADJUST ASK
-        if ask_stocks > transaction_stocks
-          ask_stocks_new = ask_stocks - transaction_stocks
-          @ask.update(number_of_stocks: ask_stocks_new)
+        if @ask != nil
+          ask_stocks = @ask.number_of_stocks
+          ask_stocks_new = ask_stocks
+          if ask_stocks > transaction_stocks
+            ask_stocks_new = ask_stocks - transaction_stocks
+            @ask.update(number_of_stocks: ask_stocks_new)
+          else
+            @ask.update(number_of_stocks: 0)
+            @ask.update(sold: true)
+          end
         else
-          @ask.update(number_of_stocks: 0)
-          @ask.update(sold: true)
         end
 
         # ADJUST BID
+        bid_stocks = @bid.number_of_stocks
+        bid_stocks_new = bid_stocks
         if bid_stocks > transaction_stocks
           bid_stocks_new = ask_stocks - transaction_stocks
           @bid.update(number_of_stocks: bid_stocks_new)
@@ -37,13 +35,24 @@ class TransactionsController < ApplicationController
           @bid.update(number_of_stocks: 0)
           @bid.update(bought: true)
         end
+      end
+
+      def show
+        @transaction = Transaction.find(transaction_id)
+        @seller = User.find_or_create_by(@transaction.seller_id)
+        @buyer = User.find(@transaction.buyer_id)
+        @ask = Ask.where(user_id: @seller.id).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(sold: false)[0]
+        @bid = Bid.where(user_id: @buyer.id).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(bought: false)[0]
 
         # ADJUST BALANCES
         change_balance = @transaction.price * @transaction.number_of_stocks
         buyer_balance = current_user.balance - change_balance
-        seller_balance = @seller.balance + change_balance
         @buyer.update(balance: buyer_balance)
-        @seller.update(balance: seller_balance)
+        if @seller.balance != nil
+          seller_balance = @seller.balance + change_balance
+          @seller.update(balance: seller_balance)
+        else
+        end
         
         # ADJUST STOCKS (BUYER)
         buyer_stock = @buyer.owned_stocks.find_or_create_by(stock_id: @transaction.stock_id)
@@ -52,8 +61,17 @@ class TransactionsController < ApplicationController
 
         # ADJUST STOCKS (SELLER)
         seller_stock = @seller.owned_stocks.find_or_create_by(stock_id: @transaction.stock_id)
-        seller_updated_stocks = seller_stock.number_of_stocks - @transaction.number_of_stocks
-        seller_stock.update(number_of_stocks: seller_updated_stocks)
+        if seller_stock.number_of_stocks != nil
+          seller_updated_stocks = seller_stock.number_of_stocks - @transaction.number_of_stocks
+          seller_stock.update(number_of_stocks: seller_updated_stocks)
+        else
+        end
+
+        # ADJUST ASKS/BIDS
+        if @bid != nil
+          adjust_bid_ask
+        end
+
       end
      
       def create

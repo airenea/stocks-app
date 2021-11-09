@@ -11,7 +11,7 @@ ASKS FORM
         </div>
         <div class="field">
             <%= f.label :price %>
-            <%= f.number_field :price %>
+            <%= f.number_field :price, step: 0.01 %>
         </div>
         <div class="field">
             <%= f.label :sold %>
@@ -36,7 +36,7 @@ BIDS FORM
         </div>
         <div class="field">
             <%= f.label :price %>
-            <%= f.number_field :price %>
+            <%= f.number_field :price, step: 0.01 %>
         </div>
         <div class="field">
             <%= f.label :sold %>
