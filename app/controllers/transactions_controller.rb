@@ -39,7 +39,7 @@ class TransactionsController < ApplicationController
 
       def show
         @transaction = Transaction.find(transaction_id)
-        @seller = User.find_or_create_by(@transaction.seller_id)
+        @seller = User.find_or_create_by(id: @transaction.seller_id)
         @buyer = User.find(@transaction.buyer_id)
         @ask = Ask.where(user_id: @seller.id).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(sold: false)[0]
         @bid = Bid.where(user_id: @buyer.id).where(stock_id: @transaction.stock_id).where(price: @transaction.price).where(bought: false)[0]
@@ -56,17 +56,21 @@ class TransactionsController < ApplicationController
         
         # ADJUST STOCKS (BUYER)
         buyer_stock = @buyer.owned_stocks.find_or_create_by(stock_id: @transaction.stock_id)
-        buyer_stock.update(number_of_stocks: @transaction.number_of_stocks)
+        if buyer_stock.number_of_stocks == nil
+          buyer_stock.update(number_of_stocks: 0)
+        end
         buyer_updated_stocks = buyer_stock.number_of_stocks + @transaction.number_of_stocks
         buyer_stock.update(number_of_stocks: buyer_updated_stocks)
 
         # ADJUST STOCKS (SELLER)
-        seller_stock = @seller.owned_stocks.find_or_create_by(stock_id: @transaction.stock_id)
-        if seller_stock.number_of_stocks != nil
-          seller_stock.update(number_of_stocks: @transaction.number_of_stocks)
-          seller_updated_stocks = seller_stock.number_of_stocks - @transaction.number_of_stocks
-          seller_stock.update(number_of_stocks: seller_updated_stocks)
-        else
+        if @transaction.seller_id != nil
+          seller_stock = @seller.owned_stocks.find_or_create_by(stock_id: @transaction.stock_id)
+          if seller_stock.number_of_stocks != nil
+            seller_stock.update(number_of_stocks: 0)
+            seller_updated_stocks = seller_stock.number_of_stocks - @transaction.number_of_stocks
+            seller_stock.update(number_of_stocks: seller_updated_stocks)
+          else
+          end
         end
 
         # ADJUST ASKS/BIDS

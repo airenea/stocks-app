@@ -1,17 +1,23 @@
 <%
 ask_notice = ""
-avail_stocks = User.find(current_user.id).owned_stocks.where(stock_id: Stock.where(symbol: @stock.symbol)[0].id).count
-if avail_stocks = 0
-    ask_notice = " (You do not have any stocks to sell.)"
+avail_stocks = 0
+find_user = User.find(current_user.id).owned_stocks.where(stock_id: Stock.where(symbol: @stock.symbol)[0].id)[0]
+if find_user != nil
+    avail_stocks = find_user.number_of_stocks
+    if avail_stocks == 0
+        ask_notice = " (You do not have any stocks to sell.)"
+    end
 end
 %>
 <br />
+<%=Stock.where(symbol: @stock.symbol)[0].id%>
 ASKS FORM<%= ask_notice %>  
 
 <%= form_with model: @ask do |f| %>    
     <div class ="flex">
         <%= f.number_field :stock_id, value: Stock.where(symbol: @stock.symbol)[0].id, type: :hidden %>
         <%= f.number_field :user_id, id: :user_id, class:"form-control", value: current_user.id, type: :hidden %>
+        You have <%= avail_stocks %> stocks to sell.
         <div class="field">
             <%= f.label :number_of_stocks %>
             <%= f.number_field :number_of_stocks, in: 0..avail_stocks %>
@@ -19,10 +25,6 @@ ASKS FORM<%= ask_notice %>
         <div class="field">
             <%= f.label :price %>
             <%= f.number_field :price, step: 0.01 %>
-        </div>
-        <div class="field">
-            <%= f.label :sold %>
-            <%= f.check_box :sold %>
         </div>
         <%= f.hidden_field :sold, value: false %>
         <div>   
@@ -44,10 +46,6 @@ BIDS FORM
         <div class="field">
             <%= f.label :price %>
             <%= f.number_field :price, step: 0.01 %>
-        </div>
-        <div class="field">
-            <%= f.label :sold %>
-            <%= f.check_box :sold %>
         </div>
         <%= f.hidden_field :bought, value: false %>
         <div>   

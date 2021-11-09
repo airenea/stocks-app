@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :admins
   devise_for :regulars
+  devise_for :admins
   resources :asks
   resources :bids
   resources :transactions

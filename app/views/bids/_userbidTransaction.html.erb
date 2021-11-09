@@ -30,7 +30,7 @@ PRICE: <%=@ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price 
     <%= f.fields_for :user_transactions do |ut_f| %>
       <%= ut_f.hidden_field :user_id, value: current_user.id %>
       <%= ut_f.hidden_field :stock_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].stock_id %>
-      <%= ut_f.hidden_field :number_of_stocks, value: @number_of_stocks_available %>
+      <%= ut_f.hidden_field :number_of_stocks, value: number_of_stocks_available %>
       <%= ut_f.hidden_field :price, value: @bid.price %>
     <% end %>
     <%= f.fields_for :user_transactions do |ut_f| %>
