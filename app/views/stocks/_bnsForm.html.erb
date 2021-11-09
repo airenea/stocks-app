@@ -1,13 +1,20 @@
+<%
+ask_notice = ""
+avail_stocks = User.find(current_user.id).owned_stocks.where(stock_id: Stock.where(symbol: @stock.symbol)[0].id).count
+if avail_stocks = 0
+    ask_notice = " (You do not have any stocks to sell.)"
+end
+%>
 <br />
-ASKS FORM
+ASKS FORM<%= ask_notice %>  
+
 <%= form_with model: @ask do |f| %>    
     <div class ="flex">
-
         <%= f.number_field :stock_id, value: Stock.where(symbol: @stock.symbol)[0].id, type: :hidden %>
         <%= f.number_field :user_id, id: :user_id, class:"form-control", value: current_user.id, type: :hidden %>
         <div class="field">
             <%= f.label :number_of_stocks %>
-            <%= f.number_field :number_of_stocks %>
+            <%= f.number_field :number_of_stocks, in: 0..avail_stocks %>
         </div>
         <div class="field">
             <%= f.label :price %>

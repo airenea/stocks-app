@@ -14,7 +14,7 @@ if check != nil
   notice = "Congrats! Someone is selling."
   form = render 'userbidTransaction', transaction: @transaction, ask: @ask, bid: @bid
 else
-  if @stock.current_price == @bid.price
+  if @stock.current_price.round(2) == @bid.price
     notice = "Congrats! Someone is buying."
     form = render 'stocksellTransaction', transaction: @transaction, bid: @bid
   else

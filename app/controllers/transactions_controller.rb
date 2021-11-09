@@ -56,12 +56,14 @@ class TransactionsController < ApplicationController
         
         # ADJUST STOCKS (BUYER)
         buyer_stock = @buyer.owned_stocks.find_or_create_by(stock_id: @transaction.stock_id)
+        buyer_stock.update(number_of_stocks: @transaction.number_of_stocks)
         buyer_updated_stocks = buyer_stock.number_of_stocks + @transaction.number_of_stocks
         buyer_stock.update(number_of_stocks: buyer_updated_stocks)
 
         # ADJUST STOCKS (SELLER)
         seller_stock = @seller.owned_stocks.find_or_create_by(stock_id: @transaction.stock_id)
         if seller_stock.number_of_stocks != nil
+          seller_stock.update(number_of_stocks: @transaction.number_of_stocks)
           seller_updated_stocks = seller_stock.number_of_stocks - @transaction.number_of_stocks
           seller_stock.update(number_of_stocks: seller_updated_stocks)
         else
