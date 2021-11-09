@@ -1,7 +1,8 @@
 class BidsController < ApplicationController
+
     def index
         @bids = Bid.all  
-      end
+    end
     
       def show
         @bid = Bid.find(bid_id)
@@ -33,4 +34,5 @@ class BidsController < ApplicationController
         def transaction_params
           params[:id]
         end
+      
 end
