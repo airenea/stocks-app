@@ -3,8 +3,9 @@ hi
 <br />
     <ul>
     <% @list_transactions.each do |transaction| %>
+        <%transaction_stock = transaction.stock_id%>
         <li>
-        <%= trader.name %> <%= trader.surname %> | <%= trader.balance %>
+        <%= transaction.created_at %> | <%=@stock.where(id: transaction.stock_id)[0].symbol%>
         </li>
     <% end %>
     </ul>

@@ -1,12 +1,18 @@
-hiiii this is pending users page
+hiiii this is the pending users page
 hi
 <br />
-<h1>These are the current stocks you own</h1>
-    <ul>
-    <% @owned_stocks.each do |s| %>
-        <% stock_id = s.stock_id %>
-        <li>
-        <%= s.stock_id %> (<%=@stock.where(id: stock_id)[0].symbol%>)
-        </li>
-    <% end %>
-    </ul>
+<h1>all regular users</h1>
+<ul>
+<% @list_traders.each do |regular| %>
+    <li>
+    <%= regular.name %> <%= regular.surname %> | <%= regular.balance %> <%= link_to 'view', regular %> <%= link_to 'edit', edit_regular_path(regular) %>
+    </li>
+<% end %>
+</ul>
+<h1>all admins</h1>
+<% @list_admins.each do |admin| %>
+    <li>
+    <%= admin.name %> <%= admin.surname %> | <%= admin.balance %>
+    </li>
+<% end %>
+</ul>
