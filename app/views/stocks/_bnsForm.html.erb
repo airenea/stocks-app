@@ -1,22 +1,28 @@
 <%
-ask_notice = ""
+ask_notice_total = ""
+ask_notice_avail = ""
+total_stocks = 0
 avail_stocks = 0
 find_user = User.find(current_user.id).owned_stocks.where(stock_id: Stock.where(symbol: @stock.symbol)[0].id)[0]
 if find_user != nil
-    avail_stocks = find_user.number_of_stocks
-    if avail_stocks == 0
-        ask_notice = " (You do not have any stocks to sell.)"
+    total_stocks = find_user.number_of_stocks
+    avail_stocks = total_stocks - Ask.where(user_id: current_user.id).where(stock_id: Stock.where(symbol: @stock.symbol)[0].id).sum(:number_of_stocks)
+    if total_stocks <= 0
+        ask_notice_total = " (You do not have any stocks to sell.)"
+        total_stocks = 0
+        avail_stocks = 0
     end
 end
 %>
 <br />
 <%=Stock.where(symbol: @stock.symbol)[0].id%>
-ASKS FORM<%= ask_notice %>  
+ASKS FORM<%= ask_notice_total %>  
 
 <%= form_with model: @ask do |f| %>    
     <div class ="flex">
         <%= f.number_field :stock_id, value: Stock.where(symbol: @stock.symbol)[0].id, type: :hidden %>
         <%= f.number_field :user_id, id: :user_id, class:"form-control", value: current_user.id, type: :hidden %>
+        You have <%= total_stocks %> in total.<br />
         You have <%= avail_stocks %> stocks to sell.
         <div class="field">
             <%= f.label :number_of_stocks %>

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :bids
   resources :transactions
   root to: 'home#index'
+  get 'traders#index'
   get 'stocks/search'
   post 'stocks/search' => 'stocks#create', as: 'stocks_create'
   get 'stocks/show/:id' => 'stocks#show', as: 'stocks_show'

@@ -15,7 +15,7 @@ if check != nil
   form = render 'userbidTransaction', transaction: @transaction, ask: @ask, bid: @bid
 else
   if @stock.current_price.round(2) == @bid.price
-    notice = "Congrats! Someone is buying."
+    notice = "You can buy from the stock."
     form = render 'stocksellTransaction', transaction: @transaction, bid: @bid
   else
   end

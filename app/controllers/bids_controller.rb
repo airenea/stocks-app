@@ -15,16 +15,23 @@ class BidsController < ApplicationController
      
       def create
         @bid = Bid.new(bid_params)
-    
-        if @bid.save
-          redirect_to bids_show_path(@bid)
+        @user = current_user
+        @stock_url = '/stocks/show/' + @bid.stock_id.to_s
+
+        total_price = @bid.number_of_stocks * @bid.price
+        if total_price < @user.balance
+          @bid.save
+          if @bid.save
+            redirect_to bids_show_path(@bid)
+          end
         else
+          redirect_to @stock_url, notice: 'Insufficient balance, please add more cash'
         end
       end
     
       private
         def bid_params
-          params.require(:bid).permit(:user_id, :stock_id, :number_of_stocks, :price, :bought)
+          params.require(:bid).permit(:user_id, :stock_id, :number_of_stocks, :price, :bought, :total_price)
         end
         
         def bid_id

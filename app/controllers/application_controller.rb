@@ -3,9 +3,8 @@ class ApplicationController < ActionController::Base
   
     before_action :update_allowed_parameters, if: :devise_controller?
     before_action:authenticate_user!
-  
+    helper_method :current_user
     protected
-
     devise_group :user, contains: [:admin, :regular]
 
     def update_allowed_parameters
