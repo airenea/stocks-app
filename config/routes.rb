@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   resources :transactions
   resources :history
   resources :trader
+  resources :all_users
+  resources :pending_users
+  resources :all_transactions
   root to: 'home#index'
   get 'stocks/search'
   post 'stocks/search' => 'stocks#create', as: 'stocks_create'

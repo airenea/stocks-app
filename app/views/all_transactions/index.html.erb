@@ -1,0 +1,10 @@
+hiiii this is the all transactions page
+hi
+<br />
+    <ul>
+    <% @list_transactions.each do |transaction| %>
+        <li>
+        <%= trader.name %> <%= trader.surname %> | <%= trader.balance %>
+        </li>
+    <% end %>
+    </ul>
