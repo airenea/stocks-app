@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :admins
   devise_for :regulars
+  devise_for :admins
   resources :asks
   resources :bids
   resources :transactions
+  resources :history
+  resources :trader
   root to: 'home#index'
   get 'stocks/search'
   post 'stocks/search' => 'stocks#create', as: 'stocks_create'

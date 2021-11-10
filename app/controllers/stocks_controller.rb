@@ -22,6 +22,8 @@ class StocksController < ApplicationController
         @stock = Stock.find(stock_id)
         @ask = Ask.new(ask_params)
         @bid = Bid.new(bid_params)
+        @list_bids = Bid.where(stock_id: stock_id).where(bought: false).where.not(user_id: current_user.id)
+        @list_asks = Ask.where(stock_id: stock_id).where(sold: false).where.not(user_id: current_user.id)
     end
 
     def get_api

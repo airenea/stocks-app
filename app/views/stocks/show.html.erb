@@ -2,8 +2,26 @@
 <p>Stock</p>
 <p>this is the stocks view page</p>
 <%= @stock.symbol%>
-
-<p> Current Price: </p>
-<%= @stock.current_price %>
-
+<br />
+Current Price: <%= @stock.current_price %>
+<br />
+ALL BIDS<br />
+<ul>
+  <% @list_bids.each do |bid| %>
+    <li>
+      <%= bid.price %> (<%= bid.number_of_stocks %>)
+    </li>
+  <% end %>
+</ul>
+<br />
+<br />
+ALL ASKS<br />
+<ul>
+  <% @list_asks.each do |ask| %>
+    <li>
+      <%= ask.price %> (<%= ask.number_of_stocks %>)
+    </li>
+  <% end %>
+</ul>
+<br />
 <%= render 'bnsForm', stock: @stock, ask: @ask, bid: @bid %>

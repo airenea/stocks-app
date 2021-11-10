@@ -1,0 +1,11 @@
+hiiii this is the transactio history page
+<br />
+
+<ul>
+  <% @transaction_history.each do |h| %>
+    <% stock_id = h.stock_id %>
+    <li>
+     <%=@stock.where(id: stock_id)[0].symbol%> (<%=h.number_of_stocks%> | <%=h.price%>)
+    </li>
+  <% end %>
+</ul>

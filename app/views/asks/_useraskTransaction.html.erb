@@ -1,0 +1,44 @@
+<br />
+<% 
+number_stocks_notice = ""
+ask_stocks = @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].number_of_stocks
+bid_stocks = @ask.number_of_stocks
+number_of_stocks_available = 0
+if ask_stocks >= bid_stocks
+    number_of_stocks_available = bid_stocks
+elsif ask_stocks < bid_stocks
+    number_of_stocks_available = ask_stocks
+    number_stocks_notice = " (The buyer does not want enough stocks.)"
+else
+end
+%>
+
+BUYER ID: <%=  current_user.id %><br />
+SELLER ID: <%= @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].user_id %><br />
+STOCK ID: <%= @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].stock_id %> <br />
+NUMBER OF STOCKS: <%= number_of_stocks_available %><%= number_stocks_notice %> <br />
+PRICE: <%=@bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].price %> <br />
+<br />
+
+<%= form_with model: @transaction do |f| %>  
+    <%= f.hidden_field :buyer_id, value: current_user.id %>
+    <%= f.hidden_field :seller_id, value: @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].user_id %>
+    <%= f.hidden_field :stock_id, value: @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].stock_id %>
+    <%= f.hidden_field :price, value: @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].price %>
+    <%= f.hidden_field :number_of_stocks, value: number_of_stocks_available %>
+
+    <%= f.fields_for :user_transactions do |ut_f| %>
+      <%= ut_f.hidden_field :user_id, value: current_user.id %>
+      <%= ut_f.hidden_field :stock_id, value: @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].stock_id %>
+      <%= ut_f.hidden_field :number_of_stocks, value: number_of_stocks_available %>
+      <%= ut_f.hidden_field :price, value: @ask.price %>
+    <% end %>
+    <%= f.fields_for :user_transactions do |ut_f| %>
+        <%= ut_f.hidden_field :user_id, value: @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].user_id %>
+        <%= ut_f.hidden_field :stock_id, value: @bid.where(stock_id: @ask.stock_id).where(price: @ask.price)[0].stock_id %>
+        <%= ut_f.hidden_field :number_of_stocks, value: -number_of_stocks_available %>
+        <%= ut_f.hidden_field :price, value: @ask.price %>
+    <% end %>    
+    <br />
+    <%= f.submit "complete transaction" %>
+<% end %>
