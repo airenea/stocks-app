@@ -1,3 +1,4 @@
+
 hiiii this is all users page
 hi
 <br />
@@ -5,7 +6,7 @@ hi
 <ul>
 <% @list_traders.each do |trader| %>
     <li>
-    <%= trader.name %> <%= trader.surname %> | <%= trader.balance %>
+    <%= trader.name %> <%= trader.surname %> | <%= trader.balance %> | <%= link_to 'view', trader %> <%= link_to 'edit', edit_regular_path(trader) %>
     </li>
 <% end %>
 </ul>

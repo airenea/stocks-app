@@ -16,6 +16,15 @@ class RegularsController < ApplicationController
     @regular = Regular
   end
 
+  def create
+    @regular = Regular.new(regular_params)
+    if @regular.save
+      redirect_to @regular
+    else
+      render :new
+    end
+  end
+
   # GET /regulars/1/edit
   def edit
 
@@ -44,6 +53,6 @@ class RegularsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def regular_params
-      params.require(:regular).permit(:name, :surname, :email, :balance, :approved)
+      params.require(:regular).permit(:name, :surname, :email, :balance, :approved, :password)
     end
 end

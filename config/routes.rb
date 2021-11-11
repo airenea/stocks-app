@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :regulars
+  devise_for :regulars, :path => 'traders'
   devise_for :admins
   resources :asks
   resources :bids
@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :all_transactions
   resources :regulars
   resources :admins
+  resources :home
   root to: 'home#index'
   
   get 'stocks/search'
