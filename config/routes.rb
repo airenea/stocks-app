@@ -1,12 +1,19 @@
 Rails.application.routes.draw do
-  devise_for :regulars
+  devise_for :regulars, :path => 'traders'
   devise_for :admins
   resources :asks
   resources :bids
   resources :transactions
   resources :history
   resources :trader
+  resources :all_users
+  resources :pending_users
+  resources :all_transactions
+  resources :regulars
+  resources :admins
+  resources :home
   root to: 'home#index'
+  
   get 'stocks/search'
   post 'stocks/search' => 'stocks#create', as: 'stocks_create'
   get 'stocks/show/:id' => 'stocks#show', as: 'stocks_show'

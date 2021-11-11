@@ -1,0 +1,20 @@
+
+hiiii this is the all transactions page
+hi
+<br />
+    <ul>
+    <% @list_transactions.each do |transaction| %>
+        <%transaction_stock = transaction.stock_id%>
+        <%
+        seller = ""
+        if transaction.seller_id == nil
+            seller = @stock.where(id: transaction.stock_id)[0].symbol
+        else
+            seller = @user.find(transaction.seller_id).name + " " + @user.find(transaction.seller_id).surname
+        end
+        %>
+        <li>
+        <%= transaction.created_at.to_date %> (<%= transaction.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p") %>) | <%=@stock.where(id: transaction.stock_id)[0].name%> | Buyer: <%=@user.find(transaction.buyer_id).name%> <%=@user.find(transaction.buyer_id).surname%> | Seller: <%=seller%>
+        </li>
+    <% end %>
+    </ul>
