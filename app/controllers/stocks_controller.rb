@@ -11,7 +11,7 @@ class StocksController < ApplicationController
         
         @stock.current_price = @quote.latest_price
         @stock.symbol = @quote.symbol
-        
+
         if @stock.save
             redirect_to stocks_show_path(@stock)
         else
@@ -20,7 +20,11 @@ class StocksController < ApplicationController
 
     def show
         @stock = Stock.find(stock_id)
-    end 
+        @ask = Ask.new(ask_params)
+        @bid = Bid.new(bid_params)
+        @list_bids = Bid.where(stock_id: stock_id).where(bought: false).where.not(user_id: current_user.id)
+        @list_asks = Ask.where(stock_id: stock_id).where(sold: false).where.not(user_id: current_user.id)
+    end
 
     def get_api
         @client = IEX::Api::Client.new(
@@ -30,8 +34,20 @@ class StocksController < ApplicationController
         )
     end
 
+    def asks
+        @ask = Ask.all
+    end
+
     def stock_params
         params[:symbol]
+    end
+
+    def ask_params
+        params[:stock_id]
+    end
+
+    def bid_params
+        params[:stock_id]
     end
 
     def stock_id

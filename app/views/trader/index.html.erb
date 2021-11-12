@@ -1,0 +1,12 @@
+hiiii this is the portfolio page
+hi
+<br />
+<h1>These are the current stocks you own</h1>
+    <ul>
+    <% @owned_stocks.each do |s| %>
+        <% stock_id = s.stock_id %>
+        <li>
+        <%= s.stock_id %> (<%=@stock.where(id: stock_id)[0].symbol%>)
+        </li>
+    <% end %>
+    </ul>
