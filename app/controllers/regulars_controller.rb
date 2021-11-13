@@ -19,7 +19,7 @@ class RegularsController < ApplicationController
   def create
     @regular = Regular.new(regular_params)
     if @regular.save
-      redirect_to @regular
+      redirect_to @regular 
     else
       render :new
     end
