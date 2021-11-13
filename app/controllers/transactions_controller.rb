@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
           if ask_stocks > transaction_stocks
             ask_stocks_new = ask_stocks - transaction_stocks
             @ask.update(number_of_stocks: ask_stocks_new)
-          else
+          elsif ask_stocks == transaction_stocks
             @ask.update(number_of_stocks: 0)
             @ask.update(sold: true)
           end
