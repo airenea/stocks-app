@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :regulars, :path => 'traders'
   devise_for :admins
+  devise_for :users, controllers: { confirmations: 'confirmations' }
   resources :asks
   resources :bids
   resources :transactions
