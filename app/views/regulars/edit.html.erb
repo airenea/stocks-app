@@ -1,31 +1,70 @@
-<%= form_with model: @regular do |form| %>
-    <div>
-      <%= form.label :name %><br>
-      <%= form.text_field :name %>
-    </div>
-  
-    <div>
-      <%= form.label :surname %><br>
-      <%= form.text_field :surname %><br>
-    </div>
+<div class="w-full h-screen flex justify-center items-center">
+<div class="w-full h-screen relative z-0">
+<%
+user_first = @regular.name
+user_sur = @regular.surname
+user_first_i = user_first.chars.first
+user_sur_i = user_sur.chars.first
+join_date_month = @regular.created_at.to_date.strftime("%B")
+join_date_year = @regular.created_at.year
+%>
 
-    <div>
-      <%= form.label :email %><br>
-      <%= form.text_field :email %>
-    </div>
+<div class="flex container bg-gray-900 w-11/12 my-1.5 p-2.5 mx-auto h-40 text-white flex-wrap content-center">
+    <div class="bg-green-900 mt-2 text-white p-1.5 w-28 h-28 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono text-5xl"><%=user_first_i%><%=user_sur_i%></div>
+    <div class="w-6/12 mx-3 p-2"><span class="text-3xl"><%=user_first%> <%=user_sur%> | <%=@regular.email%></span><br /><span class="text-xl">Stocks: <%=@regular.owned_stocks.sum(:number_of_stocks)%> • Balance: USD <%=@regular.balance%></span><br /><span class="text-xm">Joined <%=join_date_month%> <%=join_date_year%></span><br /><span class="text-xs"><%= link_to "Edit", edit_regular_path %> | Regular Trader</span></div>
+</div>
+<div class="flex container border-4	 p-1.5 border-green-900 w-11/12 mx-auto overflow-scroll h-60 flex-wrap content-start">
+    <% @regular.owned_stocks.each do |ownstock| %>
+        <% 
+        stock_symbol = Stock.where(id: ownstock.stock_id)[0].symbol
+        stock_quantity = ownstock.number_of_stocks
+        stock_price = Stock.where(id: ownstock.stock_id)[0].current_price.round(2)
+        %>             
+        <div class="bg-green-800 text-white p-1.5 w-24 h-24 mx-2 my-2 font-bold text-gray-50 flex items-center justify-center font-mono"><div class="text-center"><span class="text-xm text-green-100"><%=stock_symbol%></span><br /><span class="text-xs leading-none"><%=stock_quantity%><br />USD <%=stock_price%></span></div></div>
+    <% end %>
+</div>
 
-    <div>
-      <%= form.label :balance %><br>
-      <%= form.number_field :balance %><br>
-    </div>
-
-    <div>
-      <%= form.label :approved %><br>
-      <%= form.check_box :approved %><br>
-    </div>
-  
-    <div>
-      <%= form.submit %>
-    </div>
-  <% end %>
-  
+<div class="container w-11/12 mx-auto h-9">
+    <div class="flex ...">
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Date</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">With</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Stock</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">No. of Stocks</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Price</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Change in Balance</div>
+    </div>      
+</div>
+<div class="container w-11/12 mx-auto h-36 mx-auto overflow-scroll">
+    <% UserTransaction.where(user_id: @regular.id).each do |transaction| %>
+        <%
+            transaction_specific = Transaction.where(id: transaction.transaction_id)[0]
+            transaction_stock = Stock.where(id: transaction.stock_id)[0].name
+            transaction_partner_id = 0
+            if transaction_specific.seller_id == transaction.user_id
+                transaction_partner_id = transaction_specific.buyer_id
+            elsif transaction_specific.buyer_id == transaction.user_id
+                transaction_partner_id = transaction_specific.seller_id
+            end
+            transaction_partner = "hello"
+            if transaction_partner_id == nil
+                transaction_partner = Stock.where(id: transaction.stock_id)[0].symbol
+            else
+                transaction_partner = User.find(transaction_partner_id).name + " " + User.find(transaction_partner_id).surname
+            end
+            balance_change = transaction.price * transaction.number_of_stocks
+        %>
+    <div class="flex ...">
+        <div class="bg-green-800 hover:text-green-100 hover:underline h-9 text-white p-1.5 w-1/6"><%= transaction.created_at.to_date%> <%= transaction.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p")%></div>
+        <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%= transaction_partner %></div>
+        <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%= transaction_stock %></div>
+        <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%= transaction.number_of_stocks %></div>
+        <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6">USD <%= transaction.price %></div>
+        <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6">USD <%= balance_change %></div>
+    </div>     
+    <% end %> 
+</div> 
+</div>
+<div class="bg-gray-200 bg-opacity-50 absolute inset-0 flex justify-center items-center z-10">
+<%= render "regularform" %>
+</div>
+</div>

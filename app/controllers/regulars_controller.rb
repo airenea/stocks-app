@@ -33,7 +33,7 @@ class RegularsController < ApplicationController
   # PATCH/PUT /regulars/1 or /regulars/1.json
   def update
       if @regular.update(regular_params)
-        redirect_to pending_users_path, notice: "Regular was successfully updated."
+        redirect_to @regular, notice: "Regular was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
