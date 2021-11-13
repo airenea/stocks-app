@@ -1,25 +1,25 @@
-<br />
-
-BUYER ID: <%=  current_user.id %><br />
-SELLER ID: You are buying shares directly from the stock.<br />
-STOCK ID: <%=@bid.stock_id %> <br />
-NUMBER OF STOCKS: <%=@bid.number_of_stocks %> <br />
-PRICE: <%=@bid.price %> <br />
-<br />
-
+<div class="bg-green-800 p-1.5 h-64">
+You are buying directly from the stock!<br />Complete the transaction.<br />
+<span class="text-xs">NUMBER OF STOCKS: <%=@bid.number_of_stocks %></span><br />
+<span class="text-xs">PRICE: USD <%=number_with_precision(@bid.price.to_i, precision: 2) %>
+</span>
 <%= form_with model: @transaction do |f| %>  
-    <%= f.hidden_field :buyer_id, value: current_user.id %>
-    <%= f.hidden_field :seller_id, value: nil %>
-    <%= f.hidden_field :stock_id, value: @bid.stock_id %>
-    <%= f.hidden_field :price, value: @bid.price %>
-    <%= f.hidden_field :number_of_stocks, value: @bid.number_of_stocks %>
+  <%= f.hidden_field :buyer_id, value: current_user.id %>
+  <%= f.hidden_field :seller_id, value: nil %>
+  <%= f.hidden_field :stock_id, value: @bid.stock_id %>
+  <%= f.hidden_field :price, value: @bid.price %>
+  <%= f.hidden_field :number_of_stocks, value: @bid.number_of_stocks %>
 
-    <%= f.fields_for :user_transactions do |ut_f| %>
-      <%= ut_f.hidden_field :user_id, value: current_user.id %>
-      <%= ut_f.hidden_field :stock_id, value: @bid.stock_id %>
-      <%= ut_f.hidden_field :number_of_stocks, value: @bid.number_of_stocks %>
-      <%= ut_f.hidden_field :price, value: @bid.price %>
-    <% end %>
-    <br />
-    <%= f.submit "complete transaction" %>
+  <%= f.fields_for :user_transactions do |ut_f| %>
+    <%= ut_f.hidden_field :user_id, value: current_user.id %>
+    <%= ut_f.hidden_field :stock_id, value: @bid.stock_id %>
+    <%= ut_f.hidden_field :number_of_stocks, value: @bid.number_of_stocks %>
+    <%= ut_f.hidden_field :price, value: @bid.price %>
+  <% end %>
+</div>
+<div class="bg-green-800 p-1.5 h-8">
+    <div class="bg-green-600 rounded-full text-white text-xs text-center">   
+    <%= f.submit "Complete Transaction" %>
+    </div>
+</div>
 <% end %>

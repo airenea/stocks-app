@@ -1,35 +1,65 @@
-<p>Stock</p>
-<p>this is the stocks view page</p>
-<%= @stock.symbol%>
-<br />
-Current Price: <%= @stock.current_price %>
-<br />
-ALL BIDS<br />
-<ul>
-  <% @list_bids.each do |bid| %>
-    <li>
-      <%= bid.price %> (<%= bid.number_of_stocks %>)
-    </li>
-  <% end %>
-</ul>
-<br />
-<br />
-ALL ASKS<br />
-<ul>
-  <% @list_asks.each do |ask| %>
-    <li>
-      <%= ask.price %> (<%= ask.number_of_stocks %>)
-    </li>
-  <% end %>
-</ul>
-<br />
-
 <%
 approved_notice = ""
 if current_user.approved
   approved_notice = render 'bnsForm', stock: @stock, ask: @ask, bid: @bid
 else
-  approved_notice = "You must be approved."
+  approved_notice = render '_notapproved'
+end
+user_bid = Bid.where(stock_id: @stock.id).where(bought: false).where(user_id: current_user.id)[0]
+user_ask = Ask.where(stock_id: @stock.id).where(sold: false).where(user_id: current_user.id)[0]
+bids_link = ""
+asks_link = ""
+if user_bid != nil
+  bids_link = "/bids/show/" + user_bid.id.to_s
+end
+if user_ask != nil
+  asks_link = "/asks/show/" + user_ask.id.to_s
 end
 %>
-<%= approved_notice%>
+
+<div class="flex w-11/12 p-1 mx-auto h-screen text-white">
+  <div class="bg-gray-900 w-4/6 p-2.5 mx-auto h-96 text-white">
+    <div class="flex bg-gray-800 w-full p-2.5 mx-auto h-32 text-white">
+      <div class="bg-green-900 text-white p-1.5 w-20 h-20 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono text-2xl mt-2"><%=@stock.symbol%></div>
+      <div class="w-6/12 mx-3 p-2"><span class="text-3xl"><%= @stock.name %></span><br /><span class="text-xl">Current Price: USD <%= @stock.current_price.round(2) %></span><br /><span class="text-xm">Other Stock Info</span></div>
+    </div>
+    <div class="flex bg-gray-600 w-full p-2.5 mx-auto h-56 text-white mt-1">
+    <div class="w-6/12 p-2 bg-gray-300">
+      <div class="container w-11/12 mx-auto h-9">
+        <div class="flex mt-1 bg-purple-900 h-9 items-center justify-center">Asks</div>      
+      </div>
+      <div class="container mt-1 w-11/12 mx-auto overflow-scroll h-36 bg-purple-700 border-purple-800 border-2">
+        <% @list_asks.each do |ask| %>
+          <div class="flex ...">
+            <div class="bg-purple-800 hover:text-purple-100 text-white p-1.5 w-3/5 text-sm"><%= ask.created_at.to_date %> (<%= ask.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p") %>)</div>
+            <div class="bg-purple-800 hover:text-purple-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= ask.price %></div>
+            <div class="bg-purple-800 hover:text-purple-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= ask.number_of_stocks %></div>
+          </div>      
+        <% end %> 
+      </div>
+    </div>
+    <div class="w-6/12 p-2 bg-gray-300">
+      <div class="container w-11/12 mx-auto h-9">
+        <div class="flex mt-1 bg-blue-900 h-9 items-center justify-center">Bids</div>      
+      </div>
+      <div class="container mt-1 w-11/12 mx-auto overflow-scroll h-36 bg-blue-700 border-blue-800 border-2">
+        <% @list_bids.each do |bid| %>
+          <div class="flex ...">
+            <div class="bg-blue-800 hover:text-blue-100 text-white p-1.5 w-3/5 text-sm"><%= bid.created_at.to_date %> (<%= bid.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p") %>)</div>
+            <div class="bg-blue-800 hover:text-blue-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= bid.price %></div>
+            <div class="bg-blue-800 hover:text-blue-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= bid.number_of_stocks %></div>
+          </div>      
+        <% end %> 
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="bg-gray-800 w-2/6 p-2.5 mx-auto h-96 text-white">
+      <div class="container flex w-11/12 mx-auto overflow-scroll">
+        <div class="bg-gray-700 text-white p-1.5 w-4/12 text-xs text-left rounded-t-md"><%= link_to "Bid/Ask" %></div>
+        <div class="bg-gray-500 text-white p-1.5 w-4/12 text-xs text-left rounded-t-md"><%= link_to "Pending Bids", bids_link %></div>
+        <div class="bg-gray-500 text-white p-1.5 w-4/12 text-xs text-left rounded-t-md"><%= link_to "Pending Asks", asks_link %></div>
+      </div>
+    <%= approved_notice%>
+  </div>
+</div>

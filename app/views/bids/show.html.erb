@@ -1,12 +1,4 @@
-  <p> Bid </p>
-
-  <%= @bid.user_id %>
-  <%= @bid.stock_id %>
-  <%= @bid.number_of_stocks %>
-  <%= @bid.price %>
-<br />
- 
-<%
+<% 
 check = @ask.where(stock_id: @bid.stock_id).where(price: @bid.price).where.not(user_id: current_user.id)[0]
 notice = ""
 form = ""
@@ -14,13 +6,61 @@ if check != nil
   notice = "Congrats! Someone is selling."
   form = render 'userbidTransaction', transaction: @transaction, ask: @ask, bid: @bid
 else
-  if @stock.current_price.round(2) == @bid.price
+  if @stock[0].current_price.round(2) == @bid.price
     notice = "You can buy from the stock."
     form = render 'stocksellTransaction', transaction: @transaction, bid: @bid
   else
+    form = render 'nomatches'
   end
 end
+stock_link = '/stocks/show/' + @stock[0].id.to_s
 %>
-----<br />
-<%= notice %>
-<%= form %>
+
+<div class="flex w-11/12 p-1 mx-auto h-screen text-white">
+  <div class="bg-gray-900 w-4/6 p-2.5 mx-auto h-96 text-white">
+    <div class="flex bg-gray-800 w-full p-2.5 mx-auto h-32 text-white">
+      <div class="bg-green-900 text-white p-1.5 w-20 h-20 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono text-2xl mt-2"><%=@stock[0].symbol%></div>
+      <div class="w-6/12 mx-3 p-2"><span class="text-3xl"><%= @stock[0].name %></span><br /><span class="text-xl">Current Price: USD <%= @stock[0].current_price.round(2) %></span><br /><span class="text-xm">Other Stock Info</span></div>
+    </div>
+    <div class="flex bg-gray-600 w-full p-2.5 mx-auto h-56 text-white mt-1">
+    <div class="w-6/12 p-2 bg-gray-300">
+      <div class="container w-11/12 mx-auto h-9">
+        <div class="flex mt-1 bg-purple-900 h-9 items-center justify-center">Asks</div>      
+      </div>
+      <div class="container mt-1 w-11/12 mx-auto overflow-scroll h-36 bg-purple-700 border-purple-800 border-2">
+        <% @list_asks.each do |ask| %>
+          <div class="flex ...">
+            <div class="bg-purple-800 hover:text-purple-100 text-white p-1.5 w-3/5 text-sm"><%= ask.created_at.to_date %> (<%= ask.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p") %>)</div>
+            <div class="bg-purple-800 hover:text-purple-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= ask.price %></div>
+            <div class="bg-purple-800 hover:text-purple-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= ask.number_of_stocks %></div>
+          </div>      
+        <% end %> 
+      </div>
+    </div>
+    <div class="w-6/12 p-2 bg-gray-300">
+      <div class="container w-11/12 mx-auto h-9">
+        <div class="flex mt-1 bg-blue-900 h-9 items-center justify-center">Bids</div>      
+      </div>
+      <div class="container mt-1 w-11/12 mx-auto overflow-scroll h-36 bg-blue-700 border-blue-800 border-2">
+        <% @list_bids.each do |bid| %>
+          <div class="flex ...">
+            <div class="bg-blue-800 hover:text-blue-100 text-white p-1.5 w-3/5 text-sm"><%= bid.created_at.to_date %> (<%= bid.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p") %>)</div>
+            <div class="bg-blue-800 hover:text-blue-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= bid.price %></div>
+            <div class="bg-blue-800 hover:text-blue-100 hover:underline text-white p-1.5 w-1/5 text-sm"><%= bid.number_of_stocks %></div>
+          </div>      
+        <% end %> 
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="bg-gray-800 w-2/6 p-2.5 mx-auto h-96 text-white text-center">
+      <div class="container flex w-11/12 mx-auto overflow-scroll">
+        <div class="bg-gray-500 text-white p-1.5 w-4/12 text-xs text-left rounded-t-md"><%= link_to "Bid/Ask", stock_link%></div>
+        <div class="bg-gray-700 text-white p-1.5 w-4/12 text-xs text-left rounded-t-md"><%= link_to "Pending Bids", "" %></div>
+      </div>
+    <div class="bg-green-900 p-1.5">
+        <span class="text-xs">You have placed a bid for <%= @bid.number_of_stocks %> stock/s at USD <%= @bid.price %> each.</span>
+    </div>
+    <%= form %>
+  </div>
+</div>

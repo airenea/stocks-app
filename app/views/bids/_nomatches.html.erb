@@ -1,0 +1,35 @@
+<div class="bg-green-700 p-1.5 h-72">
+Sorry, nobody is asking at your bid price.<br />(USD <%= @bid.price%>)<br />
+<span class="text-xs">Edit your price.</span>
+<br />
+<div class="container w-11/12 mx-auto h-9">
+<div class="container mt-1 w-full mx-auto overflow-scroll h-9 bg-green-700 border-green-800 border-2">
+      <div class="flex">
+        <div class="bg-green-800 h-9 hover:text-green-100 text-white pt-2 w-3/6 text-xs">Your Other Bids</div>
+        <div class="bg-green-800 h-9 hover:text-green-100 hover:underline text-white pt-2 w-1/6 text-xs">Price</div>
+        <div class="bg-green-800 h-9 hover:text-green-100 hover:underline text-white pt-2 w-1/6 text-xs">Qty.</div>
+        <div class="bg-green-800 h-9 hover:text-green-100 hover:underline text-white pt-2 w-1/6 text-xs">Match?</div>
+      </div>  
+  </div>      
+</div>
+<div class="container mt-1 w-full mx-auto overflow-scroll h-36 bg-green-700 border-green-800 border-2">
+  <% Bid.where(user_id: current_user.id).where(bought: false).where(stock_id: @bid.stock_id).each do |bid| %>
+    <% 
+    check = @ask.where(stock_id: bid.stock_id).where(price: bid.price).where.not(user_id: current_user.id)[0]
+    match_notice = "N/A"
+    if check != nil
+        match_notice = "MATCH"
+    else
+    end
+    bid_date = bid.created_at.to_date.to_s + " (" + bid.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p").to_s + ")"
+    bid_link = '/bids/show/' + bid.id.to_s
+    %>
+    <div class="flex">
+      <div class="bg-green-800 hover:text-green-100 text-white p-1.5 w-3/6 text-xs"><%=link_to bid_date, bid_link%></div>
+      <div class="bg-green-800 hover:text-green-100 hover:underline text-white p-1.5 w-1/6 text-xs"><%= bid.price %></div>
+      <div class="bg-green-800 hover:text-green-100 hover:underline text-white p-1.5 w-1/6 text-xs"><%= bid.number_of_stocks %></div>
+      <div class="bg-green-800 hover:text-green-100 hover:underline text-white p-1.5 w-1/6 text-xs"><%= match_notice %></div>
+    </div>      
+  <% end %> 
+</div>
+</div>
