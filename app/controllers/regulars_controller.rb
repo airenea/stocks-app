@@ -42,7 +42,7 @@ class RegularsController < ApplicationController
   # DELETE /regulars/1 or /regulars/1.json
   def destroy
     @regular.destroy
-       redirect_to regulars_url, notice: "Re1 segular was successfully destroyed."
+       redirect_to regulars_url, notice: "Regular segular was successfully destroyed."
   end
 
   private

@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-    before_action :set_regular, only: %i[ show edit update destroy ]
+    before_action :set_admin, only: %i[ show edit update destroy ]
 
   # GET /admins or /admins.json
   def index
@@ -17,7 +17,7 @@ class AdminsController < ApplicationController
   end
 
   def create
-    @admin = Admin.new(regular_params)
+    @admin = Admin.new(admin_params)
     if @admin.save
       redirect_to @admin
     else
@@ -32,7 +32,7 @@ class AdminsController < ApplicationController
 
   # PATCH/PUT /admins/1 or /admins/1.json
   def update
-      if @admin.update(regular_params)
+      if @admin.update(admin_params)
         redirect_to pending_users_path, notice: "Admin was successfully updated."
       else
         render :edit, status: :unprocessable_entity
@@ -42,17 +42,17 @@ class AdminsController < ApplicationController
   # DELETE /admins/1 or /admins/1.json
   def destroy
     @admin.destroy
-       redirect_to admins_url, notice: "Re1 segular was successfully destroyed."
+       redirect_to admins_url, notice: "Admin segular was successfully destroyed."
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_regular
+    def set_admin
       @admin = Admin.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
-    def regular_params
-      params.require(:regular).permit(:name, :surname, :email, :balance, :approved, :password)
+    def admin_params
+      params.require(:admin).permit(:name, :surname, :email, :balance, :approved, :password, :admin)
     end
 end

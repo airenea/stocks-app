@@ -33,15 +33,15 @@ transaction_count = Transaction.count
         circle_color = ""
         if user.approved == true
             if user.type == "Regular"
+                circle_color = "green-800"
+                circle_hover_color = "green-700"
+            elsif user.type == "Admin"
                 circle_color = "blue-800"
                 circle_hover_color = "blue-700"
-            elsif user.type == "Admin"
-                circle_color = "blue-600"
-                circle_hover_color = "blue-500"
             end
         else
-            circle_color = "green-800"
-            circle_hover_color = "green-700"
+            circle_color = "purple-800"
+            circle_hover_color = "purple-700"
         end
         %>             
         <div class="hover:bg-<%=circle_hover_color%> bg-<%=circle_color%> text-white p-1.5 w-20 h-20 mx-2 my-2 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono"><span class="text-2xl"><%= link_to user_initials, user_link %></span></div>
@@ -78,3 +78,6 @@ transaction_count = Transaction.count
     </div>     
     <% end %> 
 </div> 
+
+<div class="absolute bottom-0 right-0 bg-blue-900 text-white p-1.5 mr-5 mb-5 w-16 h-16 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono text-xl"><%=link_to "+", 'admins/new'%></div>
+<div class="absolute bottom-0 right-20 bg-green-900 text-white p-1.5 mr-5 mb-5 w-16 h-16 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono text-xl"><%=link_to "+", 'regulars/new'%></div>
