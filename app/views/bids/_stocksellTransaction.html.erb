@@ -1,7 +1,7 @@
 <div class="bg-green-800 p-1.5 h-64">
 You are buying directly from the stock!<br />Complete the transaction.<br />
 <span class="text-xs">NUMBER OF STOCKS: <%=@bid.number_of_stocks %></span><br />
-<span class="text-xs">PRICE: USD <%=number_with_precision(@bid.price.to_i, precision: 2) %>
+<span class="text-xs">PRICE: USD <%=number_with_precision(@bid.price, precision: 2) %>
 </span>
 <%= form_with model: @transaction do |f| %>  
   <%= f.hidden_field :buyer_id, value: current_user.id %>

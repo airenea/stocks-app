@@ -3,7 +3,7 @@ approved_notice = ""
 if current_user.approved
   approved_notice = render 'bnsForm', stock: @stock, ask: @ask, bid: @bid
 else
-  approved_notice = render '_notapproved'
+  approved_notice = render 'notapproved'
 end
 user_bid = Bid.where(stock_id: @stock.id).where(bought: false).where(user_id: current_user.id)[0]
 user_ask = Ask.where(stock_id: @stock.id).where(sold: false).where(user_id: current_user.id)[0]

@@ -1,5 +1,5 @@
 <% 
-check = @bid.where(stock_id: @ask.stock_id).where(price: @ask.price).where.not(user_id: current_user.id)[0]
+check = @bid.where(stock_id: @ask.stock_id).where(bought: false).where(price: @ask.price).where.not(user_id: current_user.id)[0]
 notice = ""
 form = render 'nomatches'
 if check != nil

@@ -1,0 +1,43 @@
+<div class="bg-green-800 pt-10 w-full">
+<%= form_with(model: @bid) do |form| %>
+  <% if @bid.errors.any? %>
+    <div class="form-alert-error"><div style="font-family: 'Varela Round'; padding: 3%;'">Sorry!</div>
+      <ul>
+        <% @bid.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+      <div style="font-family: 'Varela Round'; padding: 3%;">Try again!</div>
+    </div> 
+  <% end %>
+
+    <div class="md:flex md:items-center mb-6 p-1.5 text-xs ml-10">
+        <div class="md:w-full flex">
+        <div class="block text-green-100 font-bold md:text-left mb-1 md:mb-0 pr-4">
+            <%= form.label :quantity %>
+        </div>
+        </div>
+        <div class="bg-white appearance-none border-2 border-gray-200 rounded w-72 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mr-20">
+            <%= form.number_field :number_of_stocks %>
+        </div>
+    </div>
+
+    <div class="md:flex md:items-center mb-6 p-1.5 text-xs ml-10">
+        <div class="md:w-full flex">
+        <div class="block text-green-100 font-bold md:text-left mb-1 md:mb-0 pr-4">
+            <%= form.label :price %>
+        </div>
+        </div>
+        <div class="bg-white appearance-none border-2 border-gray-200 rounded w-72 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mr-20">
+            <%= form.number_field :price %>
+        </div>
+    </div>
+
+    <div class="flex container flex-wrap content-center justify-center">
+        <button class="bg-green-900 bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-green-900 font-bold py-2 px-4 rounded mb-10">
+            <%= form.submit "Edit Bid" %>
+        </button>
+    </div>
+<% end %>
+</div>
+</div>

@@ -1,6 +1,6 @@
 <div class="bg-green-700 p-1.5 h-72">
 Sorry, nobody is asking at your bid price.<br />(USD <%= @bid.price%>)<br />
-<span class="text-xs">Edit your price.</span>
+<span class="text-xs"><%=link_to "Edit your price.", edit_bid_path%></span>
 <br />
 <div class="container w-11/12 mx-auto h-9">
 <div class="container mt-1 w-full mx-auto overflow-scroll h-9 bg-green-700 border-green-800 border-2">
@@ -15,7 +15,7 @@ Sorry, nobody is asking at your bid price.<br />(USD <%= @bid.price%>)<br />
 <div class="container mt-1 w-full mx-auto overflow-scroll h-36 bg-green-700 border-green-800 border-2">
   <% Bid.where(user_id: current_user.id).where(bought: false).where(stock_id: @bid.stock_id).each do |bid| %>
     <% 
-    check = @ask.where(stock_id: bid.stock_id).where(price: bid.price).where.not(user_id: current_user.id)[0]
+    check = @ask.where(stock_id: bid.stock_id).where(sold: false).where(price: bid.price).where.not(user_id: current_user.id)[0]
     match_notice = "N/A"
     if check != nil
         match_notice = "MATCH"
