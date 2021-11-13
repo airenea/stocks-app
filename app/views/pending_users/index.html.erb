@@ -51,7 +51,7 @@ transaction_count = Transaction.count
     <div class="flex ...">
         <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Name</div>
         <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Email</div>
-        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Balance</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Initial Balance</div>
         <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Created</div>
         <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Type</div>
         <div class="bg-green-900 h-9 text-white p-1.5 w-1/6">Owned Stocks</div>
@@ -71,7 +71,7 @@ transaction_count = Transaction.count
     <div class="flex ...">
         <div class="bg-green-800 hover:text-green-100 hover:underline h-9 text-white p-1.5 w-1/6"><%= link_to user_name, user_link %></div>
         <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%=user.email%></div>
-        <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%=user.balance%></div>
+        <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6">USD <%=user.balance%></div>
         <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%=user.created_at%></div>
         <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%=user.type%></div>
         <div class="bg-green-800 hover:text-green-100 h-9 text-white p-1.5 w-1/6"><%=user.owned_stocks.sum(:number_of_stocks)%></div>

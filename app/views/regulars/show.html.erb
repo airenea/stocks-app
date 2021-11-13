@@ -9,7 +9,7 @@ join_date_year = @regular.created_at.year
 
 <div class="flex container bg-gray-900 w-11/12 my-1.5 p-2.5 mx-auto h-40 text-white flex-wrap content-center">
     <div class="bg-green-900 mt-2 text-white p-1.5 w-28 h-28 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono text-5xl"><%=user_first_i%><%=user_sur_i%></div>
-    <div class="w-6/12 mx-3 p-2"><span class="text-3xl"><%=user_first%> <%=user_sur%> | <%=@regular.email%></span><br /><span class="text-xl">Stocks: <%=@regular.owned_stocks.sum(:number_of_stocks)%> • Balance: PhP <%=@regular.balance%></span><br /><span class="text-xm">Joined <%=join_date_month%> <%=join_date_year%></span><br /><span class="text-xs"><%= link_to "Edit", edit_regular_path %></span></div>
+    <div class="w-6/12 mx-3 p-2"><span class="text-3xl"><%=user_first%> <%=user_sur%> | <%=@regular.email%></span><br /><span class="text-xl">Stocks: <%=@regular.owned_stocks.sum(:number_of_stocks)%> • Balance: USD <%=@regular.balance%></span><br /><span class="text-xm">Joined <%=join_date_month%> <%=join_date_year%></span><br /><span class="text-xs"><%= link_to "Edit", edit_regular_path %></span></div>
 </div>
 <div class="flex container border-4	 p-1.5 border-green-900 w-11/12 mx-auto overflow-scroll h-60 flex-wrap content-start">
     <% @regular.owned_stocks.each do |ownstock| %>
