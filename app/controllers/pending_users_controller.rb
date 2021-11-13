@@ -2,8 +2,7 @@ class PendingUsersController < ApplicationController
     def index
         if verify_type()  
             @user = current_user
-            @list_traders = Regular.where(approved: false)
-            @list_admins = Admin.where(approved: false)
+            @list_users = User.where(approved: false)
         else
             redirect_to home_index_path, notice: 'ur not an admin'
         end

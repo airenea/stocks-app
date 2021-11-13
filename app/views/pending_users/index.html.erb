@@ -1,18 +1,62 @@
-hiiii this is the pending users page
-hi
-<br />
-<h1>all regular users</h1>
-<ul>
-<% @list_traders.each do |regular| %>
-    <li>
-    <%= regular.name %> <%= regular.surname %> | <%= regular.balance %> <%= link_to 'view', regular %> <%= link_to 'edit', edit_regular_path(regular) %>
-    </li>
-<% end %>
-</ul>
-<h1>all admins</h1>
-<% @list_admins.each do |admin| %>
-    <li>
-    <%= admin.name %> <%= admin.surname %> | <%= admin.balance %>
-    </li>
-<% end %>
-</ul>
+<%
+admin_first = current_user.name
+admin_sur = current_user.surname
+admin_first_i = admin_first.chars.first
+admin_sur_i = admin_sur.chars.first
+join_date_month = current_user.created_at.to_date.strftime("%B")
+join_date_year = current_user.created_at.year
+user_count = User.count
+pending_count = User.where(approved: false).count
+transaction_count = Transaction.count
+%>
+
+<div class="flex container bg-gray-900 w-11/12 my-1.5 p-2.5 mx-auto h-40 text-white flex-wrap content-center">
+    <div class="bg-blue-900 text-white p-1.5 w-28 h-28 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono text-5xl"><%=admin_first_i%><%=admin_sur_i%></div>
+    <div class="w-6/12 mx-3 p-2"><span class="text-3xl"><%=admin_first%> <%=admin_sur%></span><br /><span class="text-xl">Admin</span><br /><span class="text-xm">Joined <%=join_date_month%> <%=join_date_year%></span></div>
+</div>
+
+<div class="container flex w-11/12 mx-auto overflow-scroll">
+    <div class="bg-gray-800 text-white p-1.5 w-2/12 text-xs text-left rounded-t-md">All Users (<%=user_count%>)</div>
+    <div class="bg-green-700 text-white p-1.5 w-2/12 text-xs text-left rounded-t-md">Pending Users (<%=pending_count%>)</div>
+    <div class="bg-gray-800 text-white p-1.5 w-2/12 text-xs text-left rounded-t-md">All Transactions (<%=transaction_count%>)</div>
+</div>
+<div class="flex container border-4	 p-1.5 border-green-900 w-11/12 mx-auto overflow-scroll h-60 flex-wrap content-start">
+    <% @list_users.each do |user| %>
+        <% 
+        userfirst = user.name.chars.first
+        userlast = user.surname.chars.first
+        circle_color = ""
+            if user.type == "Regular"
+                circle_color = "blue-800"
+                circle_hover_color = "blue-700"
+            elsif user.type == "Admin"
+                circle_color = "blue-600"
+                circle_hover_color = "blue-500"
+            end
+        %>             
+        <div class="hover:bg-<%=circle_hover_color%> bg-<%=circle_color%> text-white p-1.5 w-20 h-20 mx-2 my-2 font-bold text-gray-50 rounded-full flex items-center justify-center font-mono"><span class="text-2xl"><%=userfirst%><%=userlast%></span></div>
+    <% end %>
+</div>
+<div class="container w-11/12 mx-auto h-9">
+    <div class="flex ...">
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/5">Name</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/5">Email</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/5">Initial Balance</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/5">Created</div>
+        <div class="bg-green-900 h-9 text-white p-1.5 w-1/5">Type</div>
+    </div>      
+</div>
+<div class="container w-11/12 mx-auto h-36 mx-auto overflow-scroll">
+    <% @list_users.each do |user| %>
+        <% 
+        user_name = user.name + " " + user.surname
+        %>     
+    <div class="flex ...">
+        <div class="bg-green-800 h-9 text-white p-1.5 w-1/5"> <%= link_to user_name, user %></div>
+        <div class="bg-green-800 h-9 text-white p-1.5 w-1/5"><%=user.email%></div>
+        <div class="bg-green-800 h-9 text-white p-1.5 w-1/5"><%=user.balance%></div>
+        <div class="bg-green-800 h-9 text-white p-1.5 w-1/5"><%=user.created_at%></div>
+        <div class="bg-green-800 h-9 text-white p-1.5 w-1/5"><%=user.type%></div>
+    </div>     
+    <% end %> 
+</div>
