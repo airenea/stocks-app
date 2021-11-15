@@ -10,15 +10,87 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <% if regular_signed_in? %>
+    <body class="flex flex-col text-black bg-white h-screen">
+      <div class="flex justify-between items-center bg-purple-600 text-x1 h-12 px-12 text-white">
+        <div class="flex items-center justify-center">
+          <p class="-ml-5 mr-10 cursor-pointer hover:bg-green-400 transition-all h-full">
+            <a href="/" class="font-bold text4x-1">SIREN</a>
+          </p>
 
-  <% if notice %>
-    <p class="alert alert-success"><%= notice %></p>
-  <% end %>
-  <% if alert %>
-    <p class="alert alert-danger"><%= alert %></p>
-  <% end %>
+          <p class="flex items-center justify-center h-full">
+          <a href="/" class="flex items-center justify-center h-full hover:bg-green-400 transition-all">🏠Home</a>
+          </p>
 
+          <p class="flex items-center justify-center h-full">
+            <%= link_to "💵My Portfolio", history_index_path, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-4" %>
+          </p>
+          
+
+        </div>
+
+          <div class="flex items-center h-full">
+            <p class="flex items-center justify-center h-full">
+              <p>Good day, <strong><%= current_user.email %></strong>
+            </p>
+
+            <p class="flex items-center justify-center h-full">
+              <%= link_to "✏️Edit Profile", edit_regular_registration_path, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-4" %>
+            </p>
+
+            <p class="flex items-center justify-center h-full">
+              <%= link_to "👋Logout", destroy_regular_session_path, method: :delete, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-2" %>
+            </p>
+
+          </div>
+      </div>
+      <% end %>
+
+    <% if admin_signed_in? %>
+      <body class="flex flex-col text-black bg-white h-screen">
+        <div class="flex justify-between items-center bg-purple-600 text-x1 h-12 px-12 text-white">
+          <div class="flex items-center justify-center">
+            <p class="-ml-5 mr-10 cursor-pointer hover:bg-green-400 transition-all h-full">
+              <a href="/" class="font-bold text4x-1">SIREN ADMIN</a>
+            </p>
+
+            <p class="flex items-center justify-center h-full">
+            <a href="/" class="flex items-center justify-center h-full hover:bg-green-400 transition-all -ml-2 p-2">🏠Home</a>
+            </p>
+
+            <p class="flex items-center justify-center h-full">
+              <%= link_to "💵My Portfolio", history_index_path, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all p-2" %>
+            </p>
+            
+            <p class="flex items-center justify-center h-full">
+              <%= link_to "⚠️Admin Dashboard", pending_users_path, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all p-2" %>
+            </p>
+
+          </div>
+
+            <div class="flex items-center h-full">
+              <p class="flex items-center justify-center h-full">
+                <p>Good day, <strong><%= current_user.email %></strong>
+              </p>
+
+              <p class="flex items-center justify-center h-full">
+                <%= link_to "✏️Edit Profile", edit_regular_registration_path, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-4" %>
+              </p>
+
+              <p class="flex items-center justify-center h-full">
+                <%= link_to "👋Logout", destroy_regular_session_path, method: :delete, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-2" %>
+              </p>
+
+            </div>
+        </div>
+      <% end %>
+        
+        <% if notice %>
+          <p class="alert alert-success"><%= notice %></p>
+        <% end %>
+        <% if alert %>
+          <p class="alert alert-danger"><%= alert %></p>
+        <% end %>
     <%= yield %>
   </body>
 </html>
