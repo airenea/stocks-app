@@ -1,5 +1,4 @@
 <%
-ask_notice_total = ""
 ask_notice_avail = ""
 total_stocks = 0
 avail_stocks = 0
@@ -8,54 +7,61 @@ if find_user != nil
     total_stocks = find_user.number_of_stocks
     avail_stocks = total_stocks - Ask.where(user_id: current_user.id).where(stock_id: Stock.where(symbol: @stock.symbol)[0].id).sum(:number_of_stocks)
     if total_stocks <= 0
-        ask_notice_total = " (You do not have any stocks to sell.)"
         total_stocks = 0
         avail_stocks = 0
     end
 end
 %>
-<br />
-<%=Stock.where(symbol: @stock.symbol)[0].id%>
-ASKS FORM<%= ask_notice_total %>  
+
+<div class="bg-gray-700 w-full mx-auto h-80 text-white">
+<div class="bg-purple-900 w-full p-2.5 mx-auto h-40 text-white">
+<span class="text-purple-200">ASKS FORM</span><br />
+<span class="text-white text-xs">You have <%= total_stocks %> <%=@stock.symbol%> stocks in total.<br />You have <%= avail_stocks %> <%=@stock.symbol%> stocks to sell.</span>
 
 <%= form_with model: @ask do |f| %>    
-    <div class ="flex">
+    <div>
         <%= f.number_field :stock_id, value: Stock.where(symbol: @stock.symbol)[0].id, type: :hidden %>
         <%= f.number_field :user_id, id: :user_id, class:"form-control", value: current_user.id, type: :hidden %>
-        You have <%= total_stocks %> in total.<br />
-        You have <%= avail_stocks %> stocks to sell.
-        <div class="field">
-            <%= f.label :number_of_stocks %>
-            <%= f.number_field :number_of_stocks, in: 0..avail_stocks %>
+        <div class="flex mt-2">
+            <div class="text-white text-xs w-7/12"><%= f.label :number_of_stocks %></div>
+            <div class="text-black text-xs w-5/12"> <%= f.number_field :number_of_stocks, in: 0..avail_stocks %></div>
         </div>
-        <div class="field">
-            <%= f.label :price %>
-            <%= f.number_field :price, step: 0.01 %>
+
+        <div class="flex mt-1">
+            <div class="text-white text-xs w-7/12"><%= f.label :price %></div>
+            <div class="text-black text-xs w-5/12"> <%= f.number_field :price, step: 0.01 %></div>
         </div>
         <%= f.hidden_field :sold, value: false %>
-        <div>   
-            <%= f.submit "asks" %>
+        <div class="bg-purple-800 rounded-full text-white text-xs text-center mt-2">   
+        <%= f.submit "Place Ask" %>
         </div>
     </div>
 <% end %>
-<br />
-BIDS FORM
-<%= form_with model: @bid do |f| %>    
-    <div class ="flex">
 
+</div>
+<div class="bg-blue-900 w-full p-2.5 mx-auto h-40 text-white">
+<span class="text-blue-200">BIDS FORM</span><br />
+<span class="text-white text-xs">Your current balance is USD <%=current_user.balance %>.</span>
+
+<%= form_with model: @bid do |f| %>    
+    <div>
         <%= f.number_field :stock_id, value: Stock.where(symbol: @stock.symbol)[0].id, type: :hidden %>
         <%= f.number_field :user_id, id: :user_id, class:"form-control", value: current_user.id, type: :hidden %>
-        <div class="field">
-            <%= f.label :number_of_stocks %>
-            <%= f.number_field :number_of_stocks %>
+        <div class="flex mt-2">
+            <div class="text-white text-xs w-7/12"><%= f.label :number_of_stocks %></div>
+            <div class="text-black text-xs w-5/12"> <%= f.number_field :number_of_stocks %></div>
         </div>
-        <div class="field">
-            <%= f.label :price %>
-            <%= f.number_field :price, step: 0.01 %>
+
+        <div class="flex mt-1">
+            <div class="text-white text-xs w-7/12"><%= f.label :price %></div>
+            <div class="text-black text-xs w-5/12"> <%= f.number_field :price, step: 0.01 %></div>
         </div>
         <%= f.hidden_field :bought, value: false %>
-        <div>   
-            <%= f.submit "bids" %>
+        <div class="bg-blue-800 rounded-full text-white text-xs text-center mt-2">   
+        <%= f.submit "Place Bid" %>
         </div>
     </div>
 <% end %>
+
+</div>
+</div>

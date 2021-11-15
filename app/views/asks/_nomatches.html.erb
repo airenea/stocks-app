@@ -1,0 +1,35 @@
+<div class="bg-green-700 p-1.5 h-72">
+Sorry, nobody is bidding at your ask price.<br />(USD <%= @ask.price%>)<br />
+<span class="text-xs"><%=link_to "Edit your price.", edit_ask_path%></span>
+<br />
+<div class="container w-11/12 mx-auto h-9">
+<div class="container mt-1 w-full mx-auto overflow-scroll h-9 bg-green-700 border-green-800 border-2">
+      <div class="flex">
+        <div class="bg-green-800 h-9 hover:text-green-100 text-white pt-2 w-3/6 text-xs">Your Other Asks</div>
+        <div class="bg-green-800 h-9 hover:text-green-100 hover:underline text-white pt-2 w-1/6 text-xs">Price</div>
+        <div class="bg-green-800 h-9 hover:text-green-100 hover:underline text-white pt-2 w-1/6 text-xs">Qty.</div>
+        <div class="bg-green-800 h-9 hover:text-green-100 hover:underline text-white pt-2 w-1/6 text-xs">Match?</div>
+      </div>  
+  </div>      
+</div>
+<div class="container mt-1 w-full mx-auto overflow-scroll h-36 bg-green-700 border-green-800 border-2">
+  <% Ask.where(user_id: current_user.id).where(sold: false).where(stock_id: @ask.stock_id).each do |ask| %>
+    <% 
+    check = @bid.where(stock_id: ask.stock_id).where(bought: false).where(price: ask.price).where.not(user_id: current_user.id)[0]
+    match_notice = "N/A"
+    if check != nil
+        match_notice = "MATCH"
+    else
+    end
+    ask_date = ask.created_at.to_date.to_s + " (" + ask.created_at.in_time_zone('Hong Kong').strftime("%I:%M%p").to_s + ")"
+    ask_link = '/asks/show/' + ask.id.to_s
+    %>
+    <div class="flex">
+      <div class="bg-green-800 hover:text-green-100 text-white p-1.5 w-3/6 text-xs"><%=link_to ask_date, ask_link%></div>
+      <div class="bg-green-800 hover:text-green-100 hover:underline text-white p-1.5 w-1/6 text-xs"><%= ask.price %></div>
+      <div class="bg-green-800 hover:text-green-100 hover:underline text-white p-1.5 w-1/6 text-xs"><%= ask.number_of_stocks %></div>
+      <div class="bg-green-800 hover:text-green-100 hover:underline text-white p-1.5 w-1/6 text-xs"><%= match_notice %></div>
+    </div>      
+  <% end %> 
+</div>
+</div>

@@ -1,18 +1,4 @@
 <% 
-check = @ask.where(stock_id: @bid.stock_id).where(sold: false).where(price: @bid.price).where.not(user_id: current_user.id)[0]
-notice = ""
-form = ""
-if check != nil
-  notice = "Congrats! Someone is selling."
-  form = render 'userbidTransaction', transaction: @transaction, ask: @ask, bid: @bid
-else
-  if @stock[0].current_price.round(2) == @bid.price
-    notice = "You can buy from the stock."
-    form = render 'stocksellTransaction', transaction: @transaction, bid: @bid
-  else
-    form = render 'nomatches'
-  end
-end
 stock_link = '/stocks/show/' + @stock[0].id.to_s
 %>
 
@@ -59,8 +45,8 @@ stock_link = '/stocks/show/' + @stock[0].id.to_s
         <div class="bg-gray-700 text-white p-1.5 w-4/12 text-xs text-left rounded-t-md"><%= link_to "Pending Bids", "" %></div>
       </div>
     <div class="bg-green-900 p-1.5">
-        <span class="text-xs">You have placed a bid for <%= @bid.number_of_stocks %> stock/s at USD <%= @bid.price %> each.</span>
+        <span class="text-xs">Edit your price to get a match.</span>
     </div>
-    <%= form %>
+    <%= render 'editform' %>
   </div>
 </div>
