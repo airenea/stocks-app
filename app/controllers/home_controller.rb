@@ -1,9 +1,8 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_api, only: [:show, :search]
+  before_action :get_api, only: [:show, :search, :index]
 
     def index
-      get_api
     end
 
     def search
@@ -11,11 +10,11 @@ class HomeController < ApplicationController
     end
 
     def get_api
-        @client = IEX::Api::Client.new(
-          publishable_token: 'pk_6db25af117ec4985982e066ca3f76546',
-          secret_token: 'sk_e47cea0714f44c6ea3803835fe18a08c',
-          endpoint: 'https://cloud.iexapis.com/v1'
-        )
+      @client = IEX::Api::Client.new(
+        publishable_token: Rails.application.credentials.iex_publishable_token,
+        secret_token: Rails.application.credentials.iex_secret_token,
+        endpoint: 'https://cloud.iexapis.com/v1'
+      )
     end
 
     def stock_params
