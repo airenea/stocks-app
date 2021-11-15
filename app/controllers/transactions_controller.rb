@@ -28,6 +28,7 @@ class TransactionsController < ApplicationController
         end
 
         # ADJUST BID
+        if @ask != nil
           bid_stocks = @bid.number_of_stocks
           bid_stocks_new = bid_stocks
           if bid_stocks > transaction_stocks
@@ -40,6 +41,8 @@ class TransactionsController < ApplicationController
             @bid.update(number_of_stocks: 0)
             @bid.update(bought: true)
           end
+        else
+        end
       end
 
       def show
