@@ -1,9 +1,53 @@
-<% if regular_signed_in? %>
- <p>hi i am a normal user</p>
- <%= current_user.approved %>
+<div class="w-full h-full">
+    <% @list = @client.stock_market_list(:mostactive) %>
+    <h1 class="font-extrabold text-4xl text-center mt-10">
+        CURRENT TOP 10 MOST ACTIVE STOCKS
+    </h1>
+    <div class="flex flex-wrap flex-row p-2 mt-20 mb-28">
+        <% @list.each do | active_stock | %> 
+            <% if active_stock.change_percent_s.include?("+") %>
+                <div class="bg-gradient-to-r text-white from-green-500 to-green-700 p-2 m-2 max-w-sm mx-auto rounded overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+            <% elsif active_stock.change_percent_s.include?("-") %>
+                <div class="bg-gradient-to-r text-white from-red-500 to-red-800 p-2 m-2 max-w-sm mx-auto rounded overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+            <% end %>
 
- <%= button_to 'Log out', destroy_regular_session_path, method: :delete %>
-<% elsif admin_signed_in? %>
- <p>hi i am an admin</p>
- <%= button_to 'Log out', destroy_admin_session_path, method: :delete %>
-<% end %>
+            <h3 class="p-0 mb-2 text-center flex justify-content-between"> 
+                <div class="font-extrabold mr-2"> <%= active_stock.symbol %></div>
+                <div class="font-extrabold"> <%= number_to_currency(active_stock.latest_price) %></div> 
+            </h3>
+                <p class="text-xs"> Volume: <%= number_with_delimiter(active_stock.avg_total_volume, :delimiter => ',') %></p>
+                <p class="text-xs"> Change: <%= active_stock.change_percent_s %></p>
+            <% if !(active_stock.low.blank?) %>
+                <p class="text-xs"> Low: <%= active_stock.low %></p>
+                <p class="text-xs"> Open: <%= active_stock.open %></p>
+            <% end %>
+                <p class="text-xs"> Prev. Close: <%= active_stock.previous_close %></p>
+        </div>
+    <% end %>
+    </div>
+
+    <div class="flex-col items-center justify-center h-2/6 w-screen">
+        <div class="flex justify-center self-center">
+            <div class="p-5 text-white bg-gradient-to-br from-indigo-300 to-purple-400 mx-auto rounded-2xl w-100">
+            <div class="flex flex-col items-center justify-center align-center">
+                <div>
+                    <a href=<%= stocks_search_path(@stocks_search_path) %> class="flex flex-col justify-center items-center mb-4 p-2 rounded-lg shadow-md h-20 
+                    bg-opacity-30 hover:bg-opacity-100
+                    bg-blue-900
+                    hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer
+                    ">
+                        <p class="text-3xl font-bold text-white">Search Stocks</p>
+                    </a>
+
+                    <a href=<%= history_index_path %> class="flex flex-col justify-center items-center p-2 rounded-lg shadow-md h-20 
+                    bg-opacity-30 hover:bg-opacity-100
+                    bg-blue-900
+                    hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer
+                    ">
+                        <p class="text-3xl font-bold text-white">Transaction History</p>
+                    </a>
+                </div>
+        </div>
+    </div>
+
+</div>
