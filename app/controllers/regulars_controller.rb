@@ -53,6 +53,6 @@ class RegularsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def regular_params
-      params.require(:regular).permit(:name, :surname, :email, :balance, :approved, :password)
+      params.require(:regular).permit(:name, :surname, :email, :balance, :approved, :password, :password_confirmation)
     end
 end
