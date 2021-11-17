@@ -3,7 +3,7 @@ class AllTransactionsController < ApplicationController
     def index
         if verify_type()  
             @user = current_user
-            @list_transactions = Transaction.all
+            @list_transactions = Transaction.order(created_at: :desc)
             @stock = Stock
             @user = User.all
         else

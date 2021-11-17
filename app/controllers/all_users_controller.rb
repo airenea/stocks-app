@@ -2,6 +2,7 @@ class AllUsersController < ApplicationController
     def index
         if verify_type()  
             @user = current_user
+            @list_users = User.all
             @list_traders = Regular.all
             @list_admins = Admin.all
         else

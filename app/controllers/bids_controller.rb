@@ -1,14 +1,14 @@
 class BidsController < ApplicationController
-
     def index
         @bids = Bid.all  
     end
     
       def show
         @bid = Bid.find(bid_id)
-        @stock = Stock.where(id:@bid.stock_id)[0]
-        @list_bids = Bid.where(stock_id:@bid.stock_id)
+        @stock = Stock.where(id:@bid.stock_id)
         @ask = Ask.all
+        @list_asks = Ask.where(stock_id:@bid.stock_id).where(sold: false).where.not(user_id: current_user.id)
+        @list_bids = Bid.where(stock_id:@bid.stock_id).where(bought: false).where.not(user_id: current_user.id)
         @transaction = Transaction.new
         @transaction.user_transactions.build
       end
@@ -27,6 +27,27 @@ class BidsController < ApplicationController
         else
           redirect_to @stock_url, notice: 'Insufficient balance, please add more cash'
         end
+      end
+
+        # GET /regulars/1/edit
+      def edit
+        @bid = Bid.find(bid_id)
+        @stock = Stock.where(id:@bid.stock_id)
+        @ask = Ask.all
+        @list_asks = Ask.where(stock_id:@bid.stock_id).where(sold: false).where.not(user_id: current_user.id)
+        @list_bids = Bid.where(stock_id:@bid.stock_id).where(bought: false).where.not(user_id: current_user.id)
+        @transaction = Transaction.new
+        @transaction.user_transactions.build
+      end
+
+      # PATCH/PUT /regulars/1 or /regulars/1.json
+      def update
+        @bid = Bid.find(bid_id)
+          if @bid.update(bid_params)
+            redirect_to @bid, notice: "Bid was successfully updated."
+          else
+            render :edit, status: :unprocessable_entity
+          end
       end
     
       private

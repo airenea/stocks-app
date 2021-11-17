@@ -1,14 +1,65 @@
-<h1>Please search here</h1>
+<div class="w-full h-full">
+    <% @list = @client.stock_market_list(:mostactive) %>
+    <h1 class="font-extrabold text-4xl text-center mt-5">
+        CURRENT TOP 10 MOST ACTIVE STOCKS
+    </h1>
+    <div class="flex flex-wrap flex-row p-2 mt-12 mb-20">
+        <% @list.each do | active_stock | %> 
+            <% if active_stock.change_percent_s.include?("+") %>
+                <div class="bg-gradient-to-r text-white from-green-500 to-green-700 p-2 m-2 max-w-sm mx-auto rounded overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+            <% elsif active_stock.change_percent_s.include?("-") %>
+                <div class="bg-gradient-to-r text-white from-red-500 to-red-800 p-2 m-2 max-w-sm mx-auto rounded overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+            <% end %>
 
-<%= form_with method: :post, url: stocks_search_path, local:true do |f| %>
-    <div class ="flex">
-        <div class="field">
-            <%= f.label :symbol %><br />
-            <%= f.text_field :symbol, autofocus: true, autocomplete: "symbol" %>
+            <h3 class="p-0 text-center flex justify-content-between"> 
+                <div class="font-extrabold mr-2"> <%= active_stock.symbol %></div>
+                <div class="font-extrabold"> <%= number_to_currency(active_stock.latest_price) %></div> 
+            </h3> <br>
+                <p class="text-xs"> Volume: <%= number_with_delimiter(active_stock.avg_total_volume, :delimiter => ',') %></p>
+                <p class="text-xs"> Change: <%= active_stock.change_percent_s %></p>
+            <% if !(active_stock.low.blank?) %>
+                <p class="text-xs"> Low: <%= active_stock.low %></p>
+                <p class="text-xs"> Open: <%= active_stock.open %></p>
+            <% end %>
+                <p class="text-xs"> Prev. Close: <%= active_stock.previous_close %></p>
         </div>
-
-        <div>
-            <%= f.submit "Search" %>
-        </div>
+    <% end %>
     </div>
-<% end %>
+
+    <div class="flex-col items-center justify-center h-2/6 w-screen">
+        <div class="flex justify-center self-center">
+            <div class="p-5 text-white bg-gradient-to-br from-indigo-300 to-purple-400 mx-auto rounded-2xl w-100">
+            <div class="flex flex-col items-center justify-center align-center mb-5">                
+            <%= form_with method: :post, url: stocks_search_path, local:true do |f| %>
+                <div class="flex">
+                    <div class="w-full px-3 mb-2">
+                        <%= f.label :symbol, class:"text-x1 text-black font-semibold mb-2" %>
+                    <div class="flex">
+                    <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">🔎</div>
+                        <%= f.text_field :symbol, autofocus: true, autocomplete: "symbol", class: "mt-1 text-black w-full -ml-10 pl-10 pr-3 py-1 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500", placeholder:"FB" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-center items-center text-center mt-5">
+                    <%= f.submit "Search", class:"text-3xl mb-4 font-bold text-white w-full py-2 px-4 rounded-lg bg-opacity-30 hover:bg-opacity-100
+                    bg-blue-900
+                    hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer" %>
+
+                    <a href=<%= history_index_path %> class="text-2xl mb-4 font-bold text-white w-full py-2 px-4 rounded-lg bg-opacity-30 hover:bg-opacity-100
+                    bg-blue-900
+                    hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+                        <p class="text-3xl font-bold text-white">Transaction History</p>
+                    </a>
+
+                    <a href=<%= home_index_path %> class="text-2xl font-bold text-white w-full py-2 px-4 rounded-lg bg-opacity-30 hover:bg-opacity-100
+                    bg-blue-900
+                    hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+                        <p class="text-3xl font-bold text-white">Home</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <% end %>
+    </div>
+</div>

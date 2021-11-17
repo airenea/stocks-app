@@ -19,7 +19,7 @@ class RegularsController < ApplicationController
   def create
     @regular = Regular.new(regular_params)
     if @regular.save
-      redirect_to @regular
+      redirect_to @regular 
     else
       render :new
     end
@@ -33,7 +33,7 @@ class RegularsController < ApplicationController
   # PATCH/PUT /regulars/1 or /regulars/1.json
   def update
       if @regular.update(regular_params)
-        redirect_to pending_users_path, notice: "Regular was successfully updated."
+        redirect_to @regular, notice: "Regular was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -42,7 +42,7 @@ class RegularsController < ApplicationController
   # DELETE /regulars/1 or /regulars/1.json
   def destroy
     @regular.destroy
-       redirect_to regulars_url, notice: "Re1 segular was successfully destroyed."
+       redirect_to regulars_url, notice: "Regular segular was successfully destroyed."
   end
 
   private

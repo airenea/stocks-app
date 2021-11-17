@@ -1,4 +1,3 @@
-<br />
 <% 
 number_stocks_notice = ""
 ask_stocks = @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].number_of_stocks
@@ -13,13 +12,11 @@ else
 end
 %>
 
-BUYER ID: <%=  current_user.id %><br />
-SELLER ID: <%= @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].user_id %><br />
-STOCK ID: <%= @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].stock_id %> <br />
-NUMBER OF STOCKS: <%= number_of_stocks_available %><%= number_stocks_notice %> <br />
-PRICE: <%=@ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price %> <br />
-<br />
-
+<div class="bg-green-800 p-1.5 h-64">
+Somebody is asking at your price!<br />Complete the transaction.<br />
+<span class="text-xs">NUMBER OF STOCKS: <%= number_of_stocks_available %><%= number_stocks_notice %></span><br />
+<span class="text-xs">PRICE: USD <%=number_with_precision(@ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price, precision: 2) %>
+</span>
 <%= form_with model: @transaction do |f| %>  
     <%= f.hidden_field :buyer_id, value: current_user.id %>
     <%= f.hidden_field :seller_id, value: @ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].user_id %>
@@ -39,6 +36,10 @@ PRICE: <%=@ask.where(stock_id: @bid.stock_id).where(price: @bid.price)[0].price 
         <%= ut_f.hidden_field :number_of_stocks, value: -number_of_stocks_available %>
         <%= ut_f.hidden_field :price, value: @bid.price %>
     <% end %>    
-    <br />
-    <%= f.submit "complete transaction" %>
+</div>
+<div class="bg-green-800 p-1.5 h-8">
+    <div class="bg-green-600 rounded-full text-white text-xs text-center">   
+    <%= f.submit "Complete Transaction" %>
+    </div>
+</div>
 <% end %>
