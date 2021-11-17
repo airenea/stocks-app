@@ -10,12 +10,14 @@
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "postcss": "^7.0.39",
-    "tailwindcss": "^2.2.19",
-    "@tailwindcss/postcss7-compat": "^2.2.17"
+    "tailwindcss": "^2.2.17"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.2.17",
     "autoprefixer": "^9.8.8",
+    "postcss": "^7.0.39",
+    "tailwindcss": "^2.2.17",
     "webpack-dev-server": "^3"
   }
 }
