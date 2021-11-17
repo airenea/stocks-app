@@ -14,7 +14,7 @@
  *= require_self
  */
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
+@import "tailwindcss/base.css";
+@import "tailwindcss/components.css";
 
-@import "tailwindcss/utilities";
+@import "tailwindcss/utilities.css";
