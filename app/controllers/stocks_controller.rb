@@ -1,5 +1,5 @@
 class StocksController < ApplicationController
-    before_action :get_api, only: [:create, :search]
+    before_action :get_api, only: [:create, :search, :show]
     
     def search
         @stock = Stock.new
@@ -24,6 +24,7 @@ class StocksController < ApplicationController
         @bid = Bid.new(bid_params)
         @list_bids = Bid.where(stock_id: stock_id).where(bought: false).where.not(user_id: current_user.id)
         @list_asks = Ask.where(stock_id: stock_id).where(sold: false).where.not(user_id: current_user.id)
+
     end
 
     def get_api
