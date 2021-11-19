@@ -43,7 +43,7 @@
             </p>
 
             <p class="flex items-center justify-center h-full">
-              <%= button_to "👋Logout", destroy_regular_session_path, method: :delete, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-2" %>
+              <%= link_to "👋Logout", destroy_regular_session_path, method: :delete, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-2" %>
             </p>
 
           </div>
@@ -82,7 +82,7 @@
               </p>
 
               <p class="flex items-center justify-center h-full">
-                <%= button_to "👋Logout", destroy_admin_session_path, method: :delete, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-2" %>
+                <%= link_to "👋Logout", destroy_admin_session_path, method: :delete, class: "flex items-center justify-center h-full hover:bg-green-400 transition-all m-2" %>
               </p>
 
             </div>
