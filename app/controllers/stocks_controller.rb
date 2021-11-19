@@ -6,15 +6,20 @@ class StocksController < ApplicationController
     end
 
     def create
-        @stock = Stock.find_or_create_by(symbol: params[:symbol], name: @client.company(stock_params).company_name)
-        @quote = @client.quote(stock_params)
-        
-        @stock.current_price = @quote.latest_price
-        @stock.symbol = @quote.symbol
+        begin
+            @stock = Stock.find_or_create_by(symbol: params[:symbol], name: @client.company(stock_params).company_name)
+            @quote = @client.quote(stock_params)
+            
+            @stock.current_price = @quote.latest_price
+            @stock.symbol = @quote.symbol
 
-        if @stock.save
-            redirect_to stocks_show_path(@stock)
-        else
+            if @stock.save
+                redirect_to stocks_show_path(@stock)
+            else
+            end
+        rescue IEX::Errors::SymbolNotFoundError => e
+            flash[:alert] = e.message # "Stock symbol not valid"
+            redirect_to stocks_search_path
         end
     end
 

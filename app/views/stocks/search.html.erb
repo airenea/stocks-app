@@ -36,7 +36,7 @@
                         <%= f.label :symbol, class:"text-x1 text-black font-semibold mb-2" %>
                     <div class="flex">
                     <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">🔎</div>
-                        <%= f.text_field :symbol, autofocus: true, autocomplete: "symbol", class: "mt-1 text-black w-full -ml-10 pl-10 pr-3 py-1 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500", placeholder:"FB" %>
+                        <%= f.text_field :symbol, autofocus: true, autocomplete: "symbol", :required => 'required', class: "mt-1 text-black w-full -ml-10 pl-10 pr-3 py-1 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500", placeholder:"FB" %>
                         </div>
                     </div>
                 </div>
