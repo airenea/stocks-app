@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Stocks !</title>
+    <title>Siren</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -90,10 +90,10 @@
       <% end %>
         
         <% if notice %>
-          <p class="alert alert-success"><%= notice %></p>
+          <div class="gen-alert-notice"><div class="gen-alert-text"><%= notice %></div></div>
         <% end %>
         <% if alert %>
-          <p class="alert alert-danger"><%= alert %></p>
+          <div class="gen-alert-error"><div class="gen-alert-text"><%= alert %></div></div>
         <% end %>
     <%= yield %>
   </body>
