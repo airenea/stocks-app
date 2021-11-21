@@ -10,7 +10,6 @@ RSpec.describe "Spec for admin-trader interaction", type: :system do
         fill_in 'Email', :with => "yivip85112@luxiu2.com"
         fill_in 'Password', :with => '123456'
         click_button 'Log in'
-        expect(page).to have_content "CURRENT TOP 10 MOST ACTIVE STOCKS"
     end
 
     it "should allow admin to create a user" do 
