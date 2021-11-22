@@ -4,8 +4,8 @@ RSpec.describe "Spec for admin-trader interaction", type: :system do
     before do
         driven_by(:rack_test)
         Rails.application.routes.default_url_options[:host]= 'localhost:3000' 
-        admin = Admin.create(name: 'RSpec', surname: 'Admin', email: 'yivip85112@luxiu2.com', password: '123456', password_confirmation: '123456', approved: true, confirmed_at: Time.now)
-        regular = Regular.create(name: 'RSpec', surname: 'Regular', email: 'rspecreg@gmail.com', password: '123456', password_confirmation: '123456', approved: true, confirmed_at: Time.now)
+        admin = Admin.create(name: 'RSpec', surname: 'Admin', email: 'yivip85112@luxiu2.com', password: '123456', password_confirmation: '123456', approved: true, balance: 1234, confirmed_at: Time.now)
+        regular = Regular.create(name: 'RSpec', surname: 'Regular', email: 'rspecreg@gmail.com', password: '123456', password_confirmation: '123456', approved: true, balance: 1234, confirmed_at: Time.now)
         visit new_admin_session_path
         fill_in 'Email', :with => "yivip85112@luxiu2.com"
         fill_in 'Password', :with => '123456'

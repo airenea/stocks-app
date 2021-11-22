@@ -4,8 +4,8 @@ RSpec.describe "Spec for Admin View", type: :system do
     before do
         driven_by(:rack_test)
         Rails.application.routes.default_url_options[:host]= 'localhost:3000' 
-        Admin.create(name: 'admin', surname: 'test', email: 'admintest@gmail.com', password: '123456', password_confirmation: '123456', approved: true, confirmed_at: Time.now)
-        Regular.create(name: 'Regular', surname: 'Trader', email: 'regulartrader@gmail.com', password: '123456', password_confirmation: '123456', approved: true, confirmed_at: Time.now)
+        Admin.create(name: 'admin', surname: 'test', email: 'admintest@gmail.com', password: '123456', password_confirmation: '123456', balance: 1234, approved: true, confirmed_at: Time.now)
+        Regular.create(name: 'Regular', surname: 'Trader', email: 'regulartrader@gmail.com', password: '123456', password_confirmation: '123456', balance: 1234, approved: true, confirmed_at: Time.now)
         # create, and log in adimn
         visit new_admin_session_path
         fill_in 'Email', :with => 'admintest@gmail.com'
